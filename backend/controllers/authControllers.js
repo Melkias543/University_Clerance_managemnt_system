@@ -1,0 +1,157 @@
+import jwt from "jsonwebtoken";
+import authService from "../services/authService.js";
+console.log(process.env.JWT_SECRET);
+
+const register = async (req, res) => {
+  try {
+    const {
+      full_name,
+      university_email,
+      student_university_id,
+      department,
+      //  year_of_study,
+      password,
+      role,
+    } = req.body;
+    console.log(req.body);
+    if (
+      !full_name ||
+      !university_email ||
+      !student_university_id ||
+      !department ||
+      !role ||
+      !password
+    ) {
+      return res
+        .status(400)
+        .json({ status: false, msg: "All fields are reguired." });
+    }
+    const data = {
+      full_name,
+      university_email,
+      role,
+      student_university_id,
+      password,
+      department,
+      /** full_name: "",
+    university_email: "",
+    role: {
+      role_name: "student", // ✅ must match RoleName
+    },
+    student_university_id: "",
+    password: "",
+    department: "", */
+    };
+
+    const credentialData = { university_email, student_university_id };
+
+    const exist = await authService.ifUserExist(credentialData);
+    if (exist) {
+      return res.status(409).json({
+        status: false,
+        msg: "User exist whith this Email or University ID.",
+      });
+    }
+    const user = await authService.registeService(data);
+    if (!user) {
+      return res.status(400).json({
+        status: false,
+        msg: "Fail to register.",
+      });
+    }
+
+    return res.status(201).json({
+      status: true,
+      msg: "student registered Successfully.",
+      data: {
+        full_name: user.full_name,
+        university_email: user.university_email,
+        student_university_id: user.student_university_id,
+        department: user.department,
+        //  year_of_study: user.year_of_study,
+        role: user.role,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      msg: "Server Error,.",
+    });
+  }
+};
+
+const login = async (req, res) => {
+  try {
+    const { university_email, password } = req.body;
+    if (!university_email || !password) {
+      return res.status(404).json({
+        status: false,
+        msg: "All fields required.",
+      });
+    }
+    const data = { university_email, password };
+
+    const user = await authService.loginService(data);
+    if (!user) {
+      return res.status(404).json({
+        status: false,
+        msg: "User Not found",
+      });
+    }
+
+    const payload = {
+      userId: user._id,
+      useName:user.full_name,
+      role_Id: user.role,
+    };
+
+    const token = jwt.sign(payload, process.env.JWT_SECRET, {
+      expiresIn: "1H",
+    });
+    return res.status(201).json({
+      status: true,
+      //  msg: "student registered Successfully.",
+      user: {
+        full_name: user.full_name,
+        university_email: user.university_email,
+        student_university_id: user.student_university_id,
+        department: user.department,
+        //  year_of_study: user.year_of_study,
+        role: user.role,
+      },
+      token,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      status: false,
+      msg: error.message || "Server Error.",
+    });
+  }
+};
+
+const logout = async (req, res) => {
+  const blacklistedTokens = new Set();
+  // Get the Authorization header (e.g. "Bearer <token>")
+  const authHeader = req.headers.authorization;
+
+  // Extract the token safely
+  const token = authHeader && authHeader.split(" ")[1];
+
+  // If no token, return error
+  if (!token) {
+    return res.status(401).json({ message: "No token provided" });
+  }
+
+  // Add token to blacklist
+  blacklistedTokens.add(token);
+
+  // Respond success
+  res.json({ message: "Logged out successfully" });
+};
+
+
+
+
+
+export default { register, login, logout };
