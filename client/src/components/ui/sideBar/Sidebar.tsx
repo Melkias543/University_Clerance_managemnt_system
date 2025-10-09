@@ -1,35 +1,66 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
-import React from "react";
-import { Button } from "../button";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import {
+  LayoutDashboard,
+  User,
+  Settings,
+  LogOut,
+  FileText,
+} from "lucide-react";
 
 export default function Sidebar() {
+  const [active, setActive] = useState("Dashboard");
+
+  const menuItems = [
+    { name: "Dashboard", icon: LayoutDashboard, href: "/dashboard/students" },
+    { name: "Application", icon: FileText, href: "/dashboard/students/application" },
+    { name: "Profile", icon: User, href: "/dashboard/students/profile" },
+    { name: "Settings", icon: Settings, href: "/dashboard/students/setting" },
+    { name: "Logout", icon: LogOut, href: "/" },
+  ];
+
   return (
-    <div>
-      <div className="w-64 bg-gray-100 p-6 border-r">
-        <h2 className="text-lg font-bold mb-6">Clearance System</h2>
-        <nav className="flex flex-col gap-3">
-          <Link
-            href="/dashboard"
-            className=" hover:bg-gray-900 cursor-pointer p-2 rounded"
-          >
-            <Button variant="ghost" className="w-full justify-start">
-              Dashboard
-            </Button>
-          </Link>
-          <Link href="/dashboard/users">
-            <Button variant="ghost" className="w-full justify-start">
-              Users
-            </Button>
-          </Link>
-          <Link href="/dashboard/settings">
-            <Button variant="ghost" className="w-full justify-start">
-              Settings
-            </Button>
-          </Link>
+    <aside className="w-64 h-screen flex flex-col justify-between border-r bg-white">
+      {/* Logo */}
+      <div>
+        <div className="flex items-center gap-2 px-6 py-4 font-bold text-lg">
+          <span className="text-blue-600 text-2xl">🎓</span>
+          <span>Clearance MS</span>
+        </div>
+
+        <Separator />
+
+        {/* Menu */}
+        <nav className="mt-4 flex flex-col">
+          {menuItems.map((item) => {
+            const Icon = item.icon;
+            const isActive = active === item.name;
+            return (
+              <Link key={item.name} href={item.href}>
+                <Button
+                  variant={isActive ? "secondary" : "ghost"}
+                  className={`w-full justify-start gap-3 px-6 py-5 text-[15px] ${
+                    isActive
+                      ? "bg-blue-50 text-blue-700 hover:bg-blue-100"
+                      : "text-gray-700 hover:bg-gray-100"
+                  }`}
+                  onClick={() => setActive(item.name)}
+                >
+                  <Icon className="w-5 h-5" />
+                  {item.name}
+                </Button>
+              </Link>
+            );
+          })}
         </nav>
       </div>
-    </div>
+
+      {/* Logout */}
+      
+    </aside>
   );
 }

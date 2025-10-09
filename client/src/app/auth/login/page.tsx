@@ -16,7 +16,7 @@ import { useAuth } from "@/context/authContext";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FormEvent, useContext, useState } from "react";
-export default function login() {
+export default function Login() {
   const [error, setError] = useState("");
   const [student, setStudent] = useState({
     university_email: "",
@@ -130,3 +130,4 @@ console.log({user},token,isLogged)
     </div>
   );
 }
+
