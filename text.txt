@@ -1,0 +1,149 @@
+What Left Now
+  -Staff
+  -Admin
+  -role
+
+"to see some "
+
+Clearance Management System Documentation
+Overview
+
+The Clearance Management System is a web-based platform designed to manage student clearance processes in an institution. The system supports three types of actors:
+
+          Student – registers, applies for clearance, and tracks application status.
+
+          Staff – reviews student applications, approves or rejects them.
+
+          Admin – manages staff, students, and oversees all clearance applications.
+
+The system ensures structured approval flow and role-based access for all users.
+
+Actors & Roles
+1. Student
+
+            Registers with valid data and logs in to access their Student Dashboard.
+
+            Dashboard Features:
+
+            Button: Go to Application → opens a clearance application as popup form.
+
+            Applies for clearance from multiple staff members.
+
+            Each application is sequential; the next application cannot be submitted until the previous one is approved.
+
+Sends full student info and previous application status to each staff when apply Button is clicked.
+
+2. Staff
+
+Receives student clearance applications.
+
+Reviews applications using the student information and previous approval(because of application should be sequential) status.
+
+Approves students if they no exist in the their database.
+
+If a student is  found (e.g., some missing information or exception case):
+
+Staff can rejects that student
+
+The Staff has their special form to add the student to a their  database for some case if the need that student.
+
+Staff Dashboard Features:
+
+        List of assigned student applications whith the status.
+        - Add student button to registers one student for theirself
+
+        
+
+3. Admin
+
+Full oversight of the system.
+
+Dashboard Features:
+
+List of all student applications whith their status.
+
+
+List of staff members with roles.
+
+Forms to:
+
+Add new staff with specific roles.
+
+Add new students for special cases needed.
+
+Workflow
+1. Student Registration & Login
+
+Student registers using valid personal and academic data.
+
+Logs in to the Student Dashboard.
+
+Can initiate the clearance application process.
+
+2. Clearance Application Process
+
+Student clicks Go to Application → pops up the application form.
+
+Student applies for clearance from each staff member sequentially.
+
+Cannot proceed to the next staff until the previous clearance is approved.
+
+Each application sends:
+
+Student personal info.
+
+Status of previously approved applications.
+
+3. Staff Approval Process
+
+Staff receives application on their dashboard.
+
+Checks student info against their database.
+
+If student exists:
+
+Not Approves clearance.
+
+If student does not exist:
+
+Approve student
+
+Manages these records separately.
+
+4. Admin Management
+
+Admin can view all student applications and statuses.
+
+Admin can view the list of “Not Found” students.
+
+Admin can add new staff and assign roles.
+
+Admin can add students to the “Not Found” database for special cases.
+
+System Features Summary
+Feature	Student	Staff	Admin
+Register & Login	✅	❌	❌
+Student Dashboard	✅	❌	❌
+Apply for Clearance	✅	❌	❌
+Staff Dashboard	❌	✅	❌
+Approve Student Applications	❌	✅	❌
+Handle needed Found Students	❌	✅	✅
+Admin Dashboard	❌	❌	✅
+Add New Staff	❌	❌	✅
+View All Applications	❌	❌	✅
+Data Flow Diagram (Conceptual)
+
+
+student: '68dc28e151ba211d2e251e83', // example ObjectId
+    data: {
+      full_name: 'Mekias',
+      university_email: 'melkiyymeil@apo',
+      university_id: '006709/15',
+      department: 'Computer Science',
+      year_batch: 'Third Year',
+      reason_for_withdrawal: 'Personal health-related issues',
+      clearance_date: new Date('2025-01-01'),
+      application_id: 'APP123',
+      approvals: []
+    }
+  });
