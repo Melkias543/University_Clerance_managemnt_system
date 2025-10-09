@@ -1,11 +1,28 @@
 # Node modules
-node_modules/
 
-# Build/dist folders (if any)
-build/
-next/
+.next/
 dist/
 
 # Environment files
 .env
-.next
+# Windows system files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+AppData/
+
+# IDEs
+.vscode/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Maven
+.m2/repository/
+
+# Node
+node_modules/
+build/
