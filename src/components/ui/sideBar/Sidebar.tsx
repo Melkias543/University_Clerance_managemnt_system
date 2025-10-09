@@ -4,7 +4,6 @@ import { useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import login from "@/app/auth/login/page";
 import {
   LayoutDashboard,
   User,
