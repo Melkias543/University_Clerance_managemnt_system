@@ -3,6 +3,7 @@ node_modules/
 
 # Build/dist folders (if any)
 build/
+.next/
 dist/
 
 # Environment files
