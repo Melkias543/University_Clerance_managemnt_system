@@ -6,10 +6,11 @@ import ClearancePopup from "@/components/appplicationpopup";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { useAuth } from "@/context/authContext";
 
 const DashboardContent = () => {
   const [showPopup, setShowPopup] = useState(false);
-
+const {applicantData}= useAuth()
   return (
     <div className="p-8 bg-gray-50 min-h-screen">
       {/* Header */}
@@ -22,14 +23,19 @@ const DashboardContent = () => {
             Welcome back! Here’s your clearance overview.
           </p>
         </div>
-
-        {/* Button triggers popup */}
-        <Button
-          onClick={() => setShowPopup(true)}
-          className="flex items-center gap-2 bg-teal-700 hover:bg-teal-800 text-white px-4"
-        >
-          <FiSend /> Apply for Clearance
-        </Button>
+        :{/* Button triggers popup */}8{" "}
+        {applicantData ? (
+          <p className="bg-gradient-to-r from-green-700 to-cyan-200 text-white font-bold text-lg md:text-xl px-4 py-2 rounded-lg shadow-md inline-block ">
+            {applicantData?.data?.full_name}
+          </p>
+        ) : (
+          <Button
+            onClick={() => setShowPopup(true)}
+            className="flex items-center gap-2 bg-teal-700 hover:bg-teal-800 text-white px-4"
+          >
+            <FiSend /> Apply for Clearance
+          </Button>
+        )}
       </div>
 
       {/* Popup Component */}

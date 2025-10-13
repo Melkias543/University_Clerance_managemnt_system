@@ -1,3 +1,4 @@
+import { Apply } from "../models/appliedStudent.js";
 import applicationService from "../services/applicationService.js";
 const apply = async (req, res) => {
   try {
@@ -23,7 +24,7 @@ const apply = async (req, res) => {
       !student
     ) {
       return res.status(400).json({
-        msg: false,
+        status: false,
         msg: "All fields are reguired",
       });
     }
@@ -32,22 +33,23 @@ const apply = async (req, res) => {
     const IfRegistered = await applicationService.checkIfExistRegistered(
       credentialData
     );
-
+    // console.log(IfRegistered)
     if (!IfRegistered) {
       return res.status(404).json({
         status: false,
         msg: "You have to registered as member to apply for clearance.",
       });
     }
-    const credentialDataIfAplied = { university_id, student,university_email };
+    const credentialDataIfAplied = { university_id, student, university_email };
 
     const checkIfExist = await applicationService.checkIfApplied(
       credentialDataIfAplied
     );
+    // console.log("JEQUMSA",checkIfExist); undefined;
     if (checkIfExist) {
       return res.status(404).json({
-        status: false,
-        msg: "You You already applied for clearence whith this Email or Id.",
+        status: true,
+        msg: "You  already applied for clearence whith this Email or Id.",
       });
     }
 
@@ -72,7 +74,7 @@ const apply = async (req, res) => {
     }
 
     return res.status(200).json({
-      status: false,
+      status: true,
       msg: "You can proceed Now For further application.",
       data: appliedUser,
     });
@@ -86,5 +88,85 @@ const apply = async (req, res) => {
   }
 };
 
+export const getAllAplied = async (req, res) => {
+  try {
+    const applications = await Apply.find()
+    // .populate("approvals.office.staff_id");
+    res.status(200).json({
+      status: true,
+      msg: "All applications retrieved successfully",
+      data: applications,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: false,
+      msg: "Server Error",
+      error: error.message,
+    });
+  }
+};
 
-export default {apply}
+export const getApliedById = async (req, res) => {
+  const { student } = req.params;
+
+  try {
+    const application = await Apply.findOne(student)
+     
+
+    if (!application) {
+      return res.status(404).json({
+        status: false,
+        msg: "Application not found",
+      });
+    }
+
+    res.status(200).json({
+      status: true,
+      msg: "Application retrieved successfully",
+      data: application,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: false,
+      msg: "Server Error",
+      error: error.message,
+    });
+  }
+};
+
+
+export const getApliedstudentAndService = async (req, res) => {
+  const { university_id, office } = req.body;
+
+  try {
+    const application = await Apply.findOne({
+      student,
+      "approvals.office": office,
+    });
+
+    if (!application) {
+      return res.status(404).json({
+        status: false,
+        msg: "Application not found",
+      });
+    }
+
+    res.status(200).json({
+      status: true,
+      msg: "Application retrieved successfully",
+      data: application,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: false,
+      msg: "Server Error",
+      error: error.message,
+    });
+  }
+};
+export default {
+  apply,
+  getAllAplied,
+  getApliedById,
+  getApliedstudentAndService,
+};
