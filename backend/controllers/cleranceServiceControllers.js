@@ -59,7 +59,7 @@ const getAllService = async (req, res) => {
 
     return res.status(200).json({
       status: true,
-      msg: "all Sercice Is Sent Successfully.",
+      msg: "all Service Is Sent Successfully.",
       data: allService,
     });
   } catch (error) {

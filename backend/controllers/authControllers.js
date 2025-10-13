@@ -112,6 +112,7 @@ const login = async (req, res) => {
       status: true,
       //  msg: "student registered Successfully.",
       user: {
+        userId: user._id,
         full_name: user.full_name,
         university_email: user.university_email,
         student_university_id: user.student_university_id,

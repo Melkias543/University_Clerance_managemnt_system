@@ -2,13 +2,6 @@ import mongoose from "mongoose";
 
 const clearanceApplicationSchema = new mongoose.Schema(
   {
-    /*full_name,
-  university_email,
-  university_id,
-  department,
-  year_batch,
-  reason_for_withdrawal,
-  clearance_date,*/
     full_name: {
       type: String,
       required: true,
@@ -48,11 +41,7 @@ const clearanceApplicationSchema = new mongoose.Schema(
       type: Date,
       required: true,
     },
-    // WhereAproved: {
-    //   type: String,
-    //   enum: ["Library", "dormitory", "Approved", "Rejected"],
-    //   default: "Pending",
-    // },
+
     student: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Student",
@@ -76,13 +65,11 @@ const clearanceApplicationSchema = new mongoose.Schema(
             "Sport_office",
           ],
           staff_id: { type: mongoose.Schema.Types.ObjectId, ref: "Staff" },
-
-         
         },
         status: {
           type: String,
-          enum: ["Aprove", "Aproved", "Rejected"],
-          // default: "Aproved",
+          enum: ["Aprove", "Aproved", "Rejected", "Pending"],
+          default: "Pending",
         },
         date: {
           type: Date,

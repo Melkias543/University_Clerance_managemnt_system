@@ -13,10 +13,8 @@ const sendBookStoreApplication = async (req, res) => {
       year_batch,
       reason_for_withdrawal,
       clearance_date,
-      application_id,
-      
     } = req.body.data;
-    const { service, student, approvals } = req.body;
+    const { application_id, student, approvals } = req.body;
 
     if (
       !full_name ||
@@ -27,9 +25,7 @@ const sendBookStoreApplication = async (req, res) => {
       !reason_for_withdrawal ||
       !clearance_date ||
       !student ||
-      !application_id ||
-      !service
-    ) {
+      !application_id    ) {
       return res.status(400).json({
         status: false,
         msg: "All fields reguired",
@@ -47,7 +43,7 @@ const sendBookStoreApplication = async (req, res) => {
       student,
       application_id,
       approvals,
-      service,
+      // service,
     };
     const credentialData = { university_id, university_email };
 
@@ -164,7 +160,7 @@ const aproveOrRejectAtBookStore = async (req, res) => {
   try {
     const { id } = req.params;
     const { status } = req.body;
-const office = "Book_Store";
+       const office = "Book_Store";
     if (!mongoose.Types.ObjectId.isValid(id) || !id) {
       return res.status(400).json({
         status: false,

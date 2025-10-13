@@ -14,7 +14,21 @@ import womenAndYouthAffairsApplicationController from "../controllers/applicatio
 const router = express.Router();
 
 router.post("/apply", applicationControllers.apply);
-
+router.get("/applicants", applicationControllers.getAllAplied);
+router.get("/singleAplicant/:id", applicationControllers.getApliedById);
+router.get("/getStudentAPLicationStatus", applicationControllers.getApliedstudentAndService);
+/*
+/clearance/apply/toDormitory
+/clearance/apply/toCaffe
+/clearance/apply/toBookStore
+/clearance/apply/toSport
+/clearance/apply/toDeptHead
+/clearance/apply/toLibrary
+/clearance/apply/toStudLoan
+/clearance/apply/toRegistral
+/clearance/apply/toCollegeDean
+/clearance/apply/toWomenAndYouth
+ */
 // DORMITORY APPLICATION.
 router.post(
   "/apply/toDormitory",

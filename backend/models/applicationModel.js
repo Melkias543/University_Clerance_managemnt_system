@@ -3,11 +3,11 @@ import mongoose from "mongoose";
 
 const clearanceSchema = new mongoose.Schema(
   {
-    service: {
-      type: mongoose.Schema.Types.ObjectId,
-      required: true,
-      ref: "CleranceService",
-    },
+    // service: {
+    //   type: mongoose.Schema.Types.ObjectId,
+    //   required: true,
+    //   ref: "CleranceService",
+    // },
     student: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Student",
@@ -15,8 +15,8 @@ const clearanceSchema = new mongoose.Schema(
     },
     action: {
       type: String,
-      enum: ["Approve","Aproved","Rejected", "Pending"],
-      default: "Approve",
+      enum: ["Approve", "Aproved", "Rejected", "Pending"],
+      default: "Pending",
     },
     data: {
       type: Object,

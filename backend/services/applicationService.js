@@ -85,11 +85,11 @@ const sendAppilicationData = async (model, data) => {
       clearance_date,
       application_id,
       approvals,
-      service,
+      // service,
     } = data;
 
     const applied = await model.create({
-      service,
+      // service,
       student,
       data: {
         full_name,
@@ -215,7 +215,7 @@ console.log(updatedOfficeAction)
         { new: true, runValidators: true }
       );
       const data = { updatedOfficeAction, updatedClearance };
-      // console.log(data)
+      console.log(data)
       return data;
     }
 

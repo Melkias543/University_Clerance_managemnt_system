@@ -1,4 +1,5 @@
 "use client";
+import { getData } from "@/Api/applyForClearanceApi";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -15,17 +16,56 @@ import api from "@/config/axiosConfig";
 import { useAuth } from "@/context/authContext";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { FormEvent, useContext, useState } from "react";
+import { FormEvent, useContext, useEffect, useState } from "react";
+import { toast } from "react-toastify";
+
 export default function Login() {
+  const { user, setUser, isLogged, setIsLogged, token, setToken,setapplicantData,applicantData } = useAuth();
+
+//  useEffect(() => {
+//    const data = async () => {
+//      // const toastId = toast.update('Loading User Data...')
+//      toast.loading("loading Applicant");
+//      try {
+//        const data = await getData(user?.userId);
+//        console.log("now", data);
+//        if (data.status) {
+//          // console.log(data.data)
+//          setapplicantData({
+//            data: {
+//              full_name: data.data.full_name,
+//              university_email: data.data.university_email,
+//              university_id: data.data.university_id,
+//              department: data.data.department,
+//              year_batch: data.data.year_batch,
+//              reason_for_withdrawal: data.data.reason_for_withdrawal,
+//              clearance_date: data.data.clearance_date,
+//            },
+//            application_id: "",
+//            student: data.data.student,
+//            approvals: data.data.approvals,
+//          });
+//          toast.dismiss();
+//          toast.success("Applicant Loaded!");
+//        }
+//      } catch (error: any) {
+//        console.log(error?.response.data.msg);
+//        toast.error("Student data Not Found");
+//      }
+//    };
+//    data();
+//  }, [user]);
+//  console.log(applicantData);
+
+
   const [error, setError] = useState("");
   const [student, setStudent] = useState({
     university_email: "",
     password: "",
   });
 
-  const {user,setUser,isLogged,setIsLogged,token,setToken} = useAuth()
 
-console.log({user},token,isLogged)
+// console.log({user},token,isLogged)
   const router = useRouter();
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -36,8 +76,7 @@ console.log({user},token,isLogged)
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log("triggered");
-
+    // console.log("triggered");
     try {
       const loginData = {
         university_email: student.university_email,
@@ -49,17 +88,21 @@ console.log({user},token,isLogged)
       // console.log("Response:", res.data);
       // console.log(res);
       if (res.data.status) {
-        alert("successfully logged IN.");
-        router.push("/dashboard");
-        setIsLogged(true)
+        toast.dismiss()
+        setIsLogged(true);
         setToken(res?.data?.token);
-        setUser(res?.data?.user)
+        setUser(res?.data?.user);
+         toast.success( res?.data.msg || "Logged IN");
+        router.push("/dashboard");
+        
       } else {
         setError(res.data.msg || "Failed.");
       }
     } catch (error: any) {
-      console.log(error);
+      // console.log(error);
       setError(error.response.data.msg || "Failed.");
+       toast.error(error.response.data.msg || "Failed.");
+      
     }
   };
   return (
