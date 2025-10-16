@@ -1,16 +1,21 @@
 
+import { Staff } from "../models/staffModels.js";
 import Student from "../models/studentModel.js"
 import bcrypt from "bcrypt"
 const ifUserExist = async (data) => {
 try {
+  let user =null
+  const { university_email,email, student_university_id } = data
   
-  const { university_email, student_university_id } = data
-  
-  const user = await Student.findOne({
-    $or: [{ university_email }, { student_university_id }],
-  });
+ user = await Student.findOne({
+   $or: [{ university_email }, { student_university_id }],
+ });
 
-  return user; 
+
+  
+  
+  
+    return user; 
 
 } catch (error) {
   console.log(error)
@@ -56,20 +61,28 @@ const salt = bcrypt.genSaltSync(saltRounds);
 }
 
 const loginService = async (data) => {
-try {
-   const { university_email, password } = data
+  try {
+  let user = null
+   const { university_email,email, password } = data
   
 
-    const user = await Student.findOne({ university_email });
-// console.log(user)
+     user = await Student.findOne({ university_email }).populate("role");;
+console.log(user)
   if (!user) {
-     throw new Error("User Not Found with this Email.")
-   }
-  const ismatch =  bcrypt.compareSync(password, user.password);
-
-  if (!ismatch) {
-    throw new Error("Incorrect Password.")
+      user = await Staff.findOne({ email }).populate('role_id');
   }
+  
+  if (!user) {
+    throw new Error("User Not Found with this Email.");
+    }
+    let isMatch=null
+ if (user.password.startsWith("$2b$")) {
+   isMatch = bcrypt.compareSync(password, user.password);
+ } else {
+   // Plain text password
+   isMatch = password === user.password;
+    }
+    // console.log(user)
     return user
 } catch (error) {
   console.log(error)

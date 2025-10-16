@@ -116,7 +116,8 @@ const getALLAplicationPerStaff = async (model) => {
     const dataPerStaff = await model
       .find()
       .populate("student")
-      .populate("service");
+      // .populate("application_id");
+  
     //
     const data = dataPerStaff.map((item) => ({
       id: item._id,
@@ -130,11 +131,11 @@ const getALLAplicationPerStaff = async (model) => {
         department: item.student.department,
         role: item.student.role,
       },
-      service: {
-        id: item.service._id,
-        title: item.service.title,
-        description: item.service.description,
-      },
+      // service: {
+      //   id: item.service._id,
+      //   title: item.service.title,
+      //   description: item.service.description,
+      // },
       withdrawal_info: {
         id: item.data._id,
         full_name: item.data.full_name,
@@ -173,23 +174,8 @@ const AproveOrRejectLAplication = async (
   office
 ) => {
   try {
-    // const rejectedorAproved = await model.findOneAndUpdate(
-    //   { student },
-    //   {
-    //     $set: { action: aprovedOrRejectionData },
-    //   },
-    //   { new: true, runValidators: true }
-    // );
-
-    // if (rejectedorAproved) {
-    //   const addAproved = await ClearanceApplication.findOneAndUpdate(
-    //     { student },
-    //     {
-    //       approvals: office,
-    //       status: aprovedOrRejectionData,
-    //     }
-    //   );
-//  const office = "College_Dean";
+  
+    
     const updatedOfficeAction = await model.findOneAndUpdate(
 
       { student },
@@ -215,7 +201,7 @@ console.log(updatedOfficeAction)
         { new: true, runValidators: true }
       );
       const data = { updatedOfficeAction, updatedClearance };
-      console.log(data)
+      // console.log(data)
       return data;
     }
 

@@ -178,7 +178,10 @@ router.post(
   "/apply/toWomenAndYouth",
   womenAndYouthAffairsApplicationController.sendWomenAndYouthAffairsApplication
 );
-router.get("/getAllFromWomenAndYout", womenAndYouthAffairsApplicationController.getAllApplication)
+router.get(
+  "/getAllFromWomenAndYouth",
+  womenAndYouthAffairsApplicationController.getAllApplication
+);
 router.get("/getSingleWomenAndYouth/:id",womenAndYouthAffairsApplicationController.getSingleWomenANdYouthApplication)
 router.put(
   "/AproveOrRejectAtWomenAndYouth/:id",

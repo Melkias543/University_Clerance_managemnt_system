@@ -11,10 +11,10 @@ const staffSchema = mongoose.Schema(
       reguired: true,
       unique: true,
     },
-    // positon_name: { 
-    //   type: String,
-    //   reguired: true,
-    // },
+    password: { 
+      type: String,
+      reguired: true,
+    },
     salary: {
       type: Number,
       required: true,

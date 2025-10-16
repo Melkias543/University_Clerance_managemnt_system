@@ -56,15 +56,18 @@ export default function Login() {
 //    data();
 //  }, [user]);
 //  console.log(applicantData);
-
+  // if (user?.role.role_name === "student") {
+  //   console.log("sport_office");
+  // };
 
   const [error, setError] = useState("");
   const [student, setStudent] = useState({
+    email: "",
     university_email: "",
     password: "",
   });
 
-
+// console.log(user)
 // console.log({user},token,isLogged)
   const router = useRouter();
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -79,6 +82,7 @@ export default function Login() {
     // console.log("triggered");
     try {
       const loginData = {
+        email: student.email || undefined,
         university_email: student.university_email,
         password: student.password,
       };
@@ -88,20 +92,29 @@ export default function Login() {
       // console.log("Response:", res.data);
       // console.log(res);
       if (res.data.status) {
-        toast.dismiss()
+        toast.dismiss();
         setIsLogged(true);
         setToken(res?.data?.token);
         setUser(res?.data?.user);
-         toast.success( res?.data.msg || "Logged IN");
-        router.push("/dashboard");
-        
-      } else {
+        toast.success(res?.data.msg || "Logged IN");
+        if (
+          user?.role?.role_name === "student" ||
+          user?.role === "student"
+        ) {
+          router.push("/dashboard/students");
+        } else if (user?.role?.role_name === "admin") {
+          router.push("/dashboard/admin");
+        } else {
+          router.push("/dashboard/staff");
+        }
+    } 
+      else {
         setError(res.data.msg || "Failed.");
       }
     } catch (error: any) {
       // console.log(error);
-      setError(error.response.data.msg || "Failed.");
-       toast.error(error.response.data.msg || "Failed.");
+      setError(error?.response?.data?.msg || "Failed.");
+       toast.error(error?.response?.data?.msg || "Failed.");
       
     }
   };
@@ -132,13 +145,22 @@ export default function Login() {
           <form onSubmit={handleSubmit}>
             <div className="flex flex-col gap-6">
               <div className="grid gap-2">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email">Student Email</Label>
                 <Input
                   onChange={(e) => handleOnChange(e)}
                   name="university_email"
                   type="email"
-                  placeholder="m@example.com"
-                  required
+                  placeholder="ForStudentm@example.com"
+                  
+                />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="email">Staff Email</Label>
+                <Input
+                  onChange={(e) => handleOnChange(e)}
+                  name="email"
+                  type="email"
+                  placeholder="ForSatff@example.com"
                 />
               </div>
               <div className="grid gap-2">

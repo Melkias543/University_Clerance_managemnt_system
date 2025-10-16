@@ -13,13 +13,62 @@ interface Student {
 
 export default function AdminDashboard() {
   const students: Student[] = [
-    { name: "milkias", department: "SWE Intern", id: "22/04/2022", year: "22/04/2022", status: "Rejected", type: "Internship" },
-    { name: "tolera", department: "SWE Intern", id: "22/04/2022", year: "22/04/2022", status: "Rejected", type: "Internship" },
-    { name: "chalchisa", department: "SWE Intern", id: "22/04/2022", year: "22/04/2022", status: "Approved", type: "Internship" },
-    { name: "Icog", department: "SWE Intern", id: "22/04/2022", year: "22/04/2022", status: "Rejected", type: "Internship" },
-    { name: "IE Networks", department: "SWE Intern", id: "22/04/2022", year: "22/04/2022", status: "Approved", type: "Internship" },
-    { name: "Addis Software", department: "SWE Intern", id: "22/04/2022", year: "22/04/2022", status: "Rejected", type: "Internship" },
-    { name: "INSA", department: "SWE Intern", id: "22/04/2022", year: "22/04/2022", status: "Rejected", type: "Internship" },
+    {
+      name: "milkias",
+      department: "SWE Intern",
+      id: "22/04/2022",
+      year: "22/04/2022",
+      status: "Rejected",
+      type: "Internship",
+    },
+    {
+      name: "tolera",
+      department: "SWE Intern",
+      id: "22/04/2022",
+      year: "22/04/2022",
+      status: "Rejected",
+      type: "Internship",
+    },
+    {
+      name: "chalchisa",
+      department: "SWE Intern",
+      id: "22/04/2022",
+      year: "22/04/2022",
+      status: "Approved",
+      type: "Internship",
+    },
+    {
+      name: "Icog",
+      department: "SWE Intern",
+      id: "22/04/2022",
+      year: "22/04/2022",
+      status: "Rejected",
+      type: "Internship",
+    },
+    {
+      name: "IE Networks",
+      department: "SWE Intern",
+      id: "22/04/2022",
+      year: "22/04/2022",
+      status: "Approved",
+      type: "Internship",
+    },
+    {
+      name: "Addis Software",
+      department: "SWE Intern",
+      id: "22/04/2022",
+      year: "22/04/2022",
+      status: "Rejected",
+      type: "Internship",
+    },
+    {
+      name: "INSA",
+      department: "SWE Intern",
+      id: "22/04/2022",
+      year: "22/04/2022",
+      status: "Rejected",
+      type: "Internship",
+    },
   ];
 
   const [search, setSearch] = useState("");
@@ -85,7 +134,7 @@ export default function AdminDashboard() {
         List of Student Applications
       </h2>
       <div className="flex flex-col gap-3">
-        {filteredStudents.map((s, i) => (
+        {/* {filteredStudents.map((s, i) => (
           <div
             key={i}
             className="border rounded-lg p-4 flex flex-col sm:flex-row sm:justify-between items-start sm:items-center gap-2 shadow-sm"
@@ -105,7 +154,12 @@ export default function AdminDashboard() {
               <button className="bg-blue-500 text-white px-2 py-1 rounded text-xs">View Detail</button>
             </div>
           </div>
-        ))}
+        ))} */}
+
+        <h1>Overall of All Student Data</h1>
+        <h1>Overall of All Staff Data Whith Their Role</h1>
+        <h1>Overall of All Student Data</h1>
+        <h1>Overall of All Student Data</h1>
       </div>
     </div>
   );

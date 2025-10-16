@@ -13,7 +13,7 @@ const checkIfExist = async (email) => {
 
 const newStaffService = async(data) => {
 try {
-    const { full_name, email, salary, hired_date, role_id } = data;
+    const { full_name, email,password, salary, hired_date, role_id } = data;
 
   
 
@@ -25,6 +25,7 @@ try {
     salary,
     hired_date,
     role_id,
+    password
   });
   
   return staff
@@ -38,10 +39,10 @@ try {
 const editStaffService = async (data) => {
   
   try {
-    const { id, full_name, email, salary, role_id } = data
+    const { id, full_name,password, email, salary, role_id } = data
     const updated = await Staff.findByIdAndUpdate(
       id ,
-      {$set:{ full_name, email, salary, role_id }},
+      {$set:{ full_name, email,password, salary, role_id }},
       { new: true, runValidators: true }
     );
     return updated
