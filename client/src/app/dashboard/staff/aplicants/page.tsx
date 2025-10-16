@@ -1,22 +1,7 @@
 "use client";
 
-import { act, useEffect, useState } from "react";
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { aproveOrReject, getApplication } from "@/Api/applyForClearanceApi";
-import { Applicant } from "@/types/aplicants";
-import { toast } from "react-toastify";
+
 import BookStoreApplicant from "@/components/StaffsPages/Bookstore";
-import { stringify } from "querystring";
 import { useAuth } from "@/context/authContext";
 import RegistralApplicant from "@/components/StaffsPages/RegistralApplicant";
 import CafteriaApplicant from "@/components/StaffsPages/CaffeApplicant";
@@ -28,14 +13,7 @@ import CollegeDeanApplicant from "@/components/StaffsPages/CollegeDeanApplicant"
 import DormitoryApplicant from "@/components/StaffsPages/DormitoryApplicant";
 import SportApplicant from "@/components/StaffsPages/SportApplicant";
 
-interface Student {
-  name: string;
-  department: string;
-  id: string;
-  year: string;
-  status: string;
-  type: string;
-}
+
 
 export default function StaffDashBoard() {
   // const [studentList, setStudents] = useState<Applicant[]>([]);
@@ -176,119 +154,7 @@ export default function StaffDashBoard() {
   // };
 
   return (
-    // <div className="p-6 space-y-6">
-    //   {/* Title */}
-    //   <h1 className="text-2xl font-semibold">Staff Dashboard</h1>
-
-    //   {/* Filters */}
-    //   <Card className="p-4">
-    //     <div className="flex flex-wrap gap-4 justify-between items-center">
-    //       <Input
-    //         placeholder="Search for student"
-    //         value={search}
-    //         onChange={(e) => setSearch(e.target.value)}
-    //         className="w-full sm:w-1/3"
-    //       />
-
-    //       <Select onValueChange={setStatusFilter} defaultValue={statusFilter}>
-    //         <SelectTrigger className="w-[180px]">
-    //           <SelectValue placeholder="Filter by status" />
-    //         </SelectTrigger>
-    //         <SelectContent>
-    //           <SelectItem value="All">All Status</SelectItem>
-    //           <SelectItem value="Approved">Approved</SelectItem>
-    //           <SelectItem value="Rejected">Rejected</SelectItem>
-    //           <SelectItem value="Pending">Pending</SelectItem>
-    //         </SelectContent>
-    //       </Select>
-
-    //       <Select onValueChange={setTypeFilter} defaultValue={typeFilter}>
-    //         <SelectTrigger className="w-[180px]">
-    //           <SelectValue placeholder="Filter by type" />
-    //         </SelectTrigger>
-    //         <SelectContent>
-    //           <SelectItem value="All">All Types</SelectItem>
-    //           <SelectItem value="Internship">Internship</SelectItem>
-    //           <SelectItem value="Research">Research</SelectItem>
-    //         </SelectContent>
-    //       </Select>
-    //     </div>
-    //   </Card>
-
-    //   {/* Student Applications */}
-    //   <div>
-    //     <h2 className="text-[#253D90] font-semibold text-xl mb-4">
-    //       List of Student Applications
-    //     </h2>
-
-    //     <div className="space-y-3">
-    //       {studentList.map((s, i) => (
-    //         <Card key={i} className="p-4 shadow-sm">
-    //           <CardContent className="flex flex-col sm:flex-row sm:justify-between items-start sm:items-center gap-3 p-0">
-    //             <div>
-    //               <p className="font-semibold">
-    //                 {s?.withdrawal_info?.full_name}
-    //               </p>
-    //               <p className="text-sm text-gray-600">
-    //                 Dept:{s.withdrawal_info?.department}
-    //               </p>
-    //               <p className="text-sm text-gray-500">
-    //                 ID: {s.withdrawal_info?.university_id}
-    //               </p>
-    //             </div>
-    //             <div>
-    //               <p className="font-semibold">
-    //                 {s?.withdrawal_info?.university_email}
-    //               </p>
-    //               <p className="text-sm text-gray-600">
-    //                 Batch:{s.withdrawal_info?.year_batch}
-    //               </p>
-    //               <p className="text-sm text-gray-500 ">
-    //                 data:{" "}
-    //                 {s.withdrawal_info?.clearance_date
-    //                   ? new Date(
-    //                       s.withdrawal_info.clearance_date
-    //                     ).toLocaleDateString()
-    //                   : "N/A"}
-    //               </p>
-    //             </div>
-    //             <div className="flex items-center gap-2">
-    //               {getStatusBadge(s.action)}
-    //               {s.action === "Rejected" ? (
-    //                 <Button
-    //                   onClick={() => {
-    //                     handleAproveal("Aproved");
-    //                   }}
-    //                   size="sm"
-    //                   className="bg-green-600 hover:bg-green-700 text-white cursor-pointer"
-    //                 >
-    //                   Approve
-    //                 </Button>
-    //               ) : (
-    //                 <Button
-    //                   onClick={() => {
-    //                     handleAproveal("Rejected");
-    //                   }}
-    //                   size="sm"
-    //                   className="bg-red-600 cursor-pointer hover:bg-red-700 text-white"
-    //                 >
-    //                   Reject
-    //                 </Button>
-    //               )}
-    //               <Button
-    //                 size="sm"
-    //                 variant="default"
-    //                 className="bg-blue-600 cursor-pointer hover:bg-blue-700 text-white"
-    //               >
-    //                 View Detail
-    //               </Button>
-    //             </div>
-    //           </CardContent>
-    //         </Card>
-    //       ))}
-    //     </div>
-    //   </div>
-    // </div>
+  
 
     <>
       {role === "book_store_keeper" && (
