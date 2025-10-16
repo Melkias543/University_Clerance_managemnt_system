@@ -3,6 +3,14 @@
 import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import {
   Select,
   SelectContent,
   SelectItem,
@@ -24,9 +32,9 @@ export default function AdminDashboard() {
   const [statusFilter, setStatusFilter] = useState("All");
   const [typeFilter, setTypeFilter] = useState("All");
   const [showApprovals, setShowApprovals] = useState(false);
-  const [aproval, setAproval] = useState([]);
+  const [aproval, setAproval] = useState<Approvals[]>([]);
   const [showModal, setShowModal] = useState(false);
-  const [currentApprovals, setCurrentApprovals] = useState<Student[]>([]);
+  // const [currentApprovals, setCurrentApprovals] = useState<>([]);
 
   // const filteredStudents = students.filter((s) => {
   //   const matchName = s.name.toLowerCase().includes(search.toLowerCase());
@@ -69,7 +77,7 @@ export default function AdminDashboard() {
   useEffect(() => {
     if (student?.length > 0) {
       // Assuming you want all approvals of the first student
-      setAproval(student[0]?.approvals || []);
+      setAproval(student[0]?.approvals);
     }
   }, [student]);
 
@@ -152,55 +160,50 @@ export default function AdminDashboard() {
                   </p>
                 </div>
                 <div>
-                  <button
-                    onClick={() => {
-                      setCurrentApprovals(student.approvals); // set approvals for this student
-                      setShowModal(true); // show modal
-                    }}
-                    className="mt-2 px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700"
-                  >
-                    View Approvals
-                  </button>
+                  <Dialog>
+                    <DialogTrigger className="mt-2 px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 hover:cursor-pointer">
+                      View Approvals/Rejections
+                    </DialogTrigger>
+                    <DialogContent>
+                      <DialogHeader>
+                        <DialogTitle>Here Student approvals and Rejections with respective office</DialogTitle>
+                        <DialogDescription asChild>
+                          <div className="mt-3 p-4 bg-white rounded-lg shadow-lg border border-gray-200 w-full sm:w-96">
+                            <h3 className="font-semibold mb-3 text-gray-700">
+                              Approvals & Rejections
+                            </h3>
+                            {aproval?.map((a, i) => {
+                              // color coding status
+                              let statusColor =
+                                a.status.toLowerCase() === "aproved"
+                                  ? "text-green-600"
+                                  : a.status.toLowerCase() === "rejected"
+                                  ? "text-red-600"
+                                  : "text-yellow-600";
 
-                  {/* <button
-                    className="mt-2 px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700"
-                    onClick={() => setShowApprovals(!showApprovals)}
-                  >
-                    {showApprovals
-                      ? "Hide Approvals"
-                      : "View Approvals/Rejections"}
-                  </button>{" "} */}
+                              return (
+                                <div
+                                  key={i}
+                                  className="flex justify-between items-center gap-4 py-2 px-3 mb-2 rounded hover:bg-gray-50 transition"
+                                >
+                                  <p className="font-medium text-gray-700">
+                                    At {a.office}
+                                  </p>
+                                  <p className={`font-semibold ${statusColor}`}>
+                                    {a.status}
+                                  </p>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </DialogDescription>
+                      </DialogHeader>
+                    </DialogContent>
+                  </Dialog>
                 </div>
               </CardContent>
             </Card>
           ))}
-
-          {showModal && (
-            <div className="mt-3 p-4 bg-white rounded-lg shadow-lg border border-gray-200 w-full sm:w-96">
-              <h3 className="font-semibold mb-3 text-gray-700">
-                Approvals & Rejections
-              </h3>
-              {aproval?.map((a, i) => {
-                // color coding status
-                let statusColor =
-                  a.status.toLowerCase() === "aproved"
-                    ? "text-green-600"
-                    : a.status.toLowerCase() === "rejected"
-                    ? "text-red-600"
-                    : "text-yellow-600";
-
-                return (
-                  <div
-                    key={i}
-                    className="flex justify-between items-center gap-4 py-2 px-3 mb-2 rounded hover:bg-gray-50 transition"
-                  >
-                    <p className="font-medium text-gray-700">At {a.office}</p>
-                    <p className={`font-semibold ${statusColor}`}>{a.status}</p>
-                  </div>
-                );
-              })}
-            </div>
-          )}
         </div>
       </div>
     </div>
