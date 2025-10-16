@@ -1,0 +1,319 @@
+"use client";
+
+import { act, useEffect, useState } from "react";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { aproveOrReject, getApplication } from "@/Api/applyForClearanceApi";
+import { Applicant } from "@/types/aplicants";
+import { toast } from "react-toastify";
+import BookStoreApplicant from "@/components/StaffsPages/Bookstore";
+import { stringify } from "querystring";
+import { useAuth } from "@/context/authContext";
+import RegistralApplicant from "@/components/StaffsPages/RegistralApplicant";
+import CafteriaApplicant from "@/components/StaffsPages/CaffeApplicant";
+import WomenAndYouthAffairsApplicant from "@/components/StaffsPages/WomenAffairsApplicant";
+import StudentLoanApplicant from "@/components/StaffsPages/StudentAppilicant";
+import DepartmentHeadApplicant from "@/components/StaffsPages/DeptHeadApplicant";
+import LibrarianApplicant from "@/components/StaffsPages/LibraryAplicant";
+import CollegeDeanApplicant from "@/components/StaffsPages/CollegeDeanApplicant";
+import DormitoryApplicant from "@/components/StaffsPages/DormitoryApplicant";
+import SportApplicant from "@/components/StaffsPages/SportApplicant";
+
+interface Student {
+  name: string;
+  department: string;
+  id: string;
+  year: string;
+  status: string;
+  type: string;
+}
+
+export default function StaffDashBoard() {
+  // const [studentList, setStudents] = useState<Applicant[]>([]);
+  // const [id, setId] = useState("");
+  const { user } = useAuth()
+ const role =user?.role?.role_name
+  // let students: Student[] = [
+  //   {
+  //     name: "milkias",
+  //     department: "SWE Intern",
+  //     id: "22/04/2022",
+  //     year: "22/04/2022",
+  //     status: "Rejected",
+  //     type: "Internship",
+  //   },
+  //   {
+  //     name: "tolera",
+  //     department: "SWE Intern",
+  //     id: "22/04/2022",
+  //     year: "22/04/2022",
+  //     status: "Rejected",
+  //     type: "Internship",
+  //   },
+  //   {
+  //     name: "chalchisa",
+  //     department: "SWE Intern",
+  //     id: "22/04/2022",
+  //     year: "22/04/2022",
+  //     status: "Approved",
+  //     type: "Internship",
+  //   },
+  //   {
+  //     name: "Icog",
+  //     department: "SWE Intern",
+  //     id: "22/04/2022",
+  //     year: "22/04/2022",
+  //     status: "Rejected",
+  //     type: "Internship",
+  //   },
+  //   {
+  //     name: "IE Networks",
+  //     department: "SWE Intern",
+  //     id: "22/04/2022",
+  //     year: "22/04/2022",
+  //     status: "Approved",
+  //     type: "Internship",
+  //   },
+  //   {
+  //     name: "Addis Software",
+  //     department: "SWE Intern",
+  //     id: "22/04/2022",
+  //     year: "22/04/2022",
+  //     status: "Rejected",
+  //     type: "Internship",
+  //   },
+  //   {
+  //     name: "INSA",
+  //     department: "SWE Intern",
+  //     id: "22/04/2022",
+  //     year: "22/04/2022",
+  //     status: "Rejected",
+  //     type: "Internship",
+  //   },
+  // ];
+
+  // const [search, setSearch] = useState("");
+  // const [statusFilter, setStatusFilter] = useState("All");
+  // const [typeFilter, setTypeFilter] = useState("All");
+
+  // const filteredStudents = students?.filter((s) => {
+  //   const matchName = s?.name.toLowerCase().includes(search.toLowerCase());
+  //   const matchStatus = statusFilter === "All" || s.status === statusFilter;
+  //   const matchType = typeFilter === "All" || s.type === typeFilter;
+  //   return matchName && matchStatus && matchType;
+  // });
+
+  // const getStatusBadge = (status: string) => {
+  //   switch (status) {
+  //     case "Approved":
+  //       return (
+  //         <Badge className="bg-green-100 text-green-800 hover:bg-green-100">
+  //           {status}
+  //         </Badge>
+  //       );
+  //     case "Rejected":
+  //       return (
+  //         <Badge className="bg-red-100 text-red-800 hover:bg-red-100">
+  //           {status}
+  //         </Badge>
+  //       );
+  //     case "Pending":
+  //       return (
+  //         <Badge className="bg-yellow-100 text-yellow-800 hover:bg-yellow-100">
+  //           {status}
+  //         </Badge>
+  //       );
+  //     default:
+  //       return (
+  //         <Badge className="bg-gray-100 text-gray-800 hover:bg-gray-100">
+  //           {status}
+  //         </Badge>
+  //       );
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   const getAplicant = async () => {
+  //     try {
+  //       const get = await getApplication();
+  //       // console.log(get.data)
+  //       setStudents(get.data);
+  //     } catch (error) {}
+  //   };
+
+  //   getAplicant();
+  // }, []);
+  // console.log("studentList", studentList);
+  // useEffect(() => {
+  //   if (studentList?.length) {
+  //     const firstId = studentList[0].student?.id;
+  //     if (firstId) {
+  //       console.log("student inside useEffect", firstId);
+  //       setId(firstId); // ✅ safe: runs only when studentList changes
+  //     }
+  //   }
+  // }, [studentList]); // dependency ensures it runs only when studentList updates
+
+  // const handleAproveal = async (action: string) => {
+  //   try {
+  //     const aproveIt = await aproveOrReject(action, id);
+  //     if (aproveIt.status) {
+  //       toast.success(aproveIt.msg);
+  //     }
+  //   } catch (error:any) {
+  //     console.log(error);
+  //     toast.error(`${error?.response.data.msg} || "Internal Server Error."`)
+  //   }
+  // };
+
+  return (
+    // <div className="p-6 space-y-6">
+    //   {/* Title */}
+    //   <h1 className="text-2xl font-semibold">Staff Dashboard</h1>
+
+    //   {/* Filters */}
+    //   <Card className="p-4">
+    //     <div className="flex flex-wrap gap-4 justify-between items-center">
+    //       <Input
+    //         placeholder="Search for student"
+    //         value={search}
+    //         onChange={(e) => setSearch(e.target.value)}
+    //         className="w-full sm:w-1/3"
+    //       />
+
+    //       <Select onValueChange={setStatusFilter} defaultValue={statusFilter}>
+    //         <SelectTrigger className="w-[180px]">
+    //           <SelectValue placeholder="Filter by status" />
+    //         </SelectTrigger>
+    //         <SelectContent>
+    //           <SelectItem value="All">All Status</SelectItem>
+    //           <SelectItem value="Approved">Approved</SelectItem>
+    //           <SelectItem value="Rejected">Rejected</SelectItem>
+    //           <SelectItem value="Pending">Pending</SelectItem>
+    //         </SelectContent>
+    //       </Select>
+
+    //       <Select onValueChange={setTypeFilter} defaultValue={typeFilter}>
+    //         <SelectTrigger className="w-[180px]">
+    //           <SelectValue placeholder="Filter by type" />
+    //         </SelectTrigger>
+    //         <SelectContent>
+    //           <SelectItem value="All">All Types</SelectItem>
+    //           <SelectItem value="Internship">Internship</SelectItem>
+    //           <SelectItem value="Research">Research</SelectItem>
+    //         </SelectContent>
+    //       </Select>
+    //     </div>
+    //   </Card>
+
+    //   {/* Student Applications */}
+    //   <div>
+    //     <h2 className="text-[#253D90] font-semibold text-xl mb-4">
+    //       List of Student Applications
+    //     </h2>
+
+    //     <div className="space-y-3">
+    //       {studentList.map((s, i) => (
+    //         <Card key={i} className="p-4 shadow-sm">
+    //           <CardContent className="flex flex-col sm:flex-row sm:justify-between items-start sm:items-center gap-3 p-0">
+    //             <div>
+    //               <p className="font-semibold">
+    //                 {s?.withdrawal_info?.full_name}
+    //               </p>
+    //               <p className="text-sm text-gray-600">
+    //                 Dept:{s.withdrawal_info?.department}
+    //               </p>
+    //               <p className="text-sm text-gray-500">
+    //                 ID: {s.withdrawal_info?.university_id}
+    //               </p>
+    //             </div>
+    //             <div>
+    //               <p className="font-semibold">
+    //                 {s?.withdrawal_info?.university_email}
+    //               </p>
+    //               <p className="text-sm text-gray-600">
+    //                 Batch:{s.withdrawal_info?.year_batch}
+    //               </p>
+    //               <p className="text-sm text-gray-500 ">
+    //                 data:{" "}
+    //                 {s.withdrawal_info?.clearance_date
+    //                   ? new Date(
+    //                       s.withdrawal_info.clearance_date
+    //                     ).toLocaleDateString()
+    //                   : "N/A"}
+    //               </p>
+    //             </div>
+    //             <div className="flex items-center gap-2">
+    //               {getStatusBadge(s.action)}
+    //               {s.action === "Rejected" ? (
+    //                 <Button
+    //                   onClick={() => {
+    //                     handleAproveal("Aproved");
+    //                   }}
+    //                   size="sm"
+    //                   className="bg-green-600 hover:bg-green-700 text-white cursor-pointer"
+    //                 >
+    //                   Approve
+    //                 </Button>
+    //               ) : (
+    //                 <Button
+    //                   onClick={() => {
+    //                     handleAproveal("Rejected");
+    //                   }}
+    //                   size="sm"
+    //                   className="bg-red-600 cursor-pointer hover:bg-red-700 text-white"
+    //                 >
+    //                   Reject
+    //                 </Button>
+    //               )}
+    //               <Button
+    //                 size="sm"
+    //                 variant="default"
+    //                 className="bg-blue-600 cursor-pointer hover:bg-blue-700 text-white"
+    //               >
+    //                 View Detail
+    //               </Button>
+    //             </div>
+    //           </CardContent>
+    //         </Card>
+    //       ))}
+    //     </div>
+    //   </div>
+    // </div>
+
+    <>
+      {role === "book_store_keeper" && (
+        <BookStoreApplicant title="Book Store" />
+      )}
+      {role === "registrar_office" && (
+        <RegistralApplicant title="Registral Office" />
+      )}
+      {role === "cafteria" && <CafteriaApplicant title="Cafteria" />}
+      {role === "librarian" && <LibrarianApplicant title="Library" />}
+      {role === "women_affairs" && (
+        <WomenAndYouthAffairsApplicant title="Youth and Women affairs" />
+      )}
+      {role === "student_loan" && <StudentLoanApplicant title="Student Loan" />}
+      {role === "college_dean" && <CollegeDeanApplicant title="College Dean" />}
+      {role === "dept_head" && (
+        <DepartmentHeadApplicant title="Department Head" />
+      )}
+      {role === "dormitory_office" && (
+        <DormitoryApplicant title="Dormitory" />
+      )}
+      {role === "sport_office" && <SportApplicant title="Sport Science" />}
+      {/* {role === "registrar_office" && (
+        <BookStoreApplicant title="Book Store Staff" />
+      )} */}
+    </>
+  );
+}

@@ -1,10 +1,8 @@
 'use client'
-
-import AdminSidebar from "@/components/ui/sideBar/adminsidebar";
+import StaffSideBar from "@/components/ui/sideBar/staffSIdeBar";
 import { useAuth } from "@/context/authContext";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-
 
 
 
@@ -15,31 +13,27 @@ export default function DashboardLayout({
   }) {
   
 
-
-  const { user } = useAuth()
-  const router = useRouter()
-  useEffect(() => {
-    
-    if (!user) {
-  router.push('/auth/login')
-    }
-    
-
-  }, [user, router])
   
+  const router = useRouter();
+  const { user } = useAuth();
+
+  useEffect(() => {
+    if (!user) {
+      router.push("/auth/login");
+    }
+  }, [user, router]);
+
   if (!user) {
+    // Optional: show a loading screen while redirecting
     return (
-      <h1 className="flex items-center justify-center h-screen text-gray-600">
-        Redirecting To Login page
-      </h1>
+      <div className="flex items-center justify-center h-screen text-gray-600">
+        Redirecting to login...
+      </div>
     );
   }
   return (
     <div className="flex h-screen bg-gray-100">
-        <AdminSidebar />
-      
-      
-
+        <StaffSideBar />
       {/* Dashboard content */}
       <main className="flex-1 overflow-auto p-6">{children}</main>
     </div>

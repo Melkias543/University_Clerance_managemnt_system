@@ -27,8 +27,9 @@ const Page = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [loadingStates, setLoadingStates] = useState<Record<string, boolean>>(
-    {});
-  
+    {}
+  );
+
   const [open, setOpen] = useState(false);
   const [openId, setOpenId] = useState<string | null>(null);
 
@@ -64,7 +65,7 @@ const Page = () => {
   const { applicantData, setapplicantData, user } = useAuth();
 
   // console.log("user", user);
-  console.log("aplicant", applicantData?.data?.full_name);
+  console.log("aplicant", applicantData);
   const handleApplication = async (to: string, id: string) => {
     // console.log("ID", to);
 
@@ -74,14 +75,14 @@ const Page = () => {
       ...applicantData,
       application_id: id,
     };
-    
+
     setapplicantData(updatedApplicant); // still updates state
     // console.log(object)
     try {
       const response = await SubmitApplication(to, updatedApplicant);
       console.log("Start loading for:", to);
 
-      console.log("triger", updatedApplicant);
+      console.log("triger", response);
       if (response?.status) {
         toast.success(`${response?.msg} TO ${to}`);
       } else {
@@ -91,7 +92,7 @@ const Page = () => {
 
       console.log(response);
     } catch (error: any) {
-      console.log(error?.response.data);
+      console.log(error?.response);
       setLoadingStates((prev) => ({ ...prev, [to]: false }));
       toast.warning(`${error?.response.data.msg}  TO ${to}`);
     } finally {
@@ -196,34 +197,34 @@ const Page = () => {
                     )}
                   </Button> */}
 
-                  <Button
+                   <Button
                     onClick={() => handleApplication(app.title, app._id)}
-                    className={`px-4 py-2 rounded transition cursor-pointer ${
-                      // determine color based on status
-                      (() => {
-                        const status = applicantData?.approvals?.find(
-                          (appr: any) =>
-                            appr.office.replace("_", " ") === app.title
-                        )?.status;
-
-                        if (status === "Aproved")
-                          return "bg-green-500 text-white hover:bg-green-600";
-                        if (status === "Pending")
-                          return "bg-yellow-400 text-white hover:bg-yellow-500";
-                        if (status === "Rejected")
-                          return "bg-red-500 text-white hover:bg-red-600";
-                        if (status === "Aprove")
-                          return "bg-blue-500 text-white hover:bg-blue-600";
-                        return "bg-[#0A6372] text-white hover:bg-[#084f57]"; // default
-                      })()
-                    }`}
                     disabled={
                       loadingStates[app.title] ||
                       !!applicantData?.approvals?.find(
                         (appr: any) =>
                           appr.office.replace("_", " ") === app.title
-                      ) // disable if already approved/rejected/pending
+                      )
                     }
+                    className={`px-4 py-2 rounded transition cursor-pointer ${(() => {
+                      const status = applicantData?.approvals?.find(
+                        (appr: any) =>
+                          appr.office.replace("_", " ") === app.title
+                      )?.status;
+
+                      switch (status) {
+                        case "Aproved":
+                          return "bg-green-500 text-white hover:bg-green-600";
+                        case "Rejected":
+                          return "bg-red-500 text-white hover:bg-red-600";
+                        case "Pending":
+                          return "bg-yellow-400 text-white hover:bg-yellow-500";
+                        case "Aprove":
+                          return "bg-blue-500 text-white hover:bg-blue-600";
+                        default:
+                          return "bg-[#0A6372] text-white hover:bg-[#084f57]";
+                      }
+                    })()}`}
                   >
                     {loadingStates[app.title] ? (
                       <>
@@ -233,15 +234,13 @@ const Page = () => {
                         </span>
                       </>
                     ) : (
-                      // show status or default
                       applicantData?.approvals?.find(
                         (appr: any) =>
                           appr.office.replace("_", " ") === app.title
-                      )?.status ||
-                      `Apply to ${app.title}` ||
-                      "Pending"
+                      )?.status || `Apply to ${app.title}`
                     )}
-                  </Button>
+                  </Button> 
+                 
 
                   <Button
                     onClick={() =>

@@ -6,22 +6,22 @@ const newStaff = async(req,res) => {
   try {
 
 
-    const { full_name, email, salary, hired_date, role_id } = req.body;
+    const { full_name, email,password, salary, hired_date, role_id } = req.body;
     
-    if (!full_name || !email || !salary || !hired_date || !role_id) {
+    if (!full_name || !email || !password|| !salary || !hired_date || !role_id) {
       res.status(400).json({
         status: false,
         msg:"All fields are reguired."
       })
     }
-    const exist = await adminServices.checkIfExist(model)
+    const exist = await adminServices.checkIfExist(email);
     if (exist) {
       return res.status(409).json({
         status: false,
         msg:"Staff already Exist whith this email."
       })
     }
-const data = { full_name, email, salary, hired_date, role_id };
+const data = { full_name, email,password, salary, hired_date, role_id };
 
     const staff = await adminServices.newStaffService(data);
     
@@ -49,7 +49,7 @@ const editStaff = async(req, res) => {
   
   try {
 // hired_date Cant updated
-    const { full_name, email, salary, role_id } = req.body;
+    const { full_name, email,password, salary, role_id } = req.body;
     const { id } = req.params
       if (!mongoose.Types.ObjectId.isValid(id) || !id) {
         return res.status(400).json({
@@ -57,7 +57,7 @@ const editStaff = async(req, res) => {
           msg: "Invalid ID or ID is Not provided",
         });
     }
-    if (!full_name || !email || !salary || !role_id) {
+    if (!full_name ||!password|| !email || !salary || !role_id) {
       return res.status(400).json({
         status: false,
         msg:"ALl fields are reguired to update."
@@ -76,7 +76,7 @@ const editStaff = async(req, res) => {
      msg: "Staff already Exist whith this email in another column.",
    });
  }
-  const  data = { full_name, email, salary, role_id, id };
+  const  data = { full_name, email,password, salary, role_id, id };
     const editedStaff = await adminServices.editStaffService(data)
     if (!editedStaff) {
       return res.status(400).json({

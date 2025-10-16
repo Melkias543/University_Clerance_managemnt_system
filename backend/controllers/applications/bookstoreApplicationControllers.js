@@ -160,6 +160,7 @@ const aproveOrRejectAtBookStore = async (req, res) => {
   try {
     const { id } = req.params;
     const { status } = req.body;
+    console.log(status,id);
        const office = "Book_Store";
     if (!mongoose.Types.ObjectId.isValid(id) || !id) {
       return res.status(400).json({

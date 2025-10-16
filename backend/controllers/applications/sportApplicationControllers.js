@@ -5,16 +5,16 @@ const sendToSportApplication = async (req, res) => {
   try {
     console.log(req.body.data);
 
-      const {
-        full_name,
-        university_email,
-        university_id,
-        department,
-        year_batch,
-        reason_for_withdrawal,
-        clearance_date,
-      } = req.body.data;
-      const { application_id, student, approvals } = req.body;
+    const {
+      full_name,
+      university_email,
+      university_id,
+      department,
+      year_batch,
+      reason_for_withdrawal,
+      clearance_date,
+    } = req.body.data;
+    const { application_id, student, approvals } = req.body;
     if (
       !full_name ||
       !university_email ||
@@ -43,7 +43,6 @@ const sendToSportApplication = async (req, res) => {
       student,
       application_id,
       approvals,
-      service,
     };
     const credentialData = { university_id, university_email };
 
@@ -158,7 +157,7 @@ const aproveOrRejectAtSportOfice = async (req, res) => {
   try {
     const { id } = req.params;
     const { status } = req.body;
-const office = "Sport_office";
+    const office = "Sport_office";
     if (!mongoose.Types.ObjectId.isValid(id) || !id) {
       return res.status(400).json({
         status: false,
@@ -168,10 +167,10 @@ const office = "Sport_office";
     if (!status) {
       return res.status(400).json({
         status: false,
-        msg:"All fields are required to update."
-      })
+        msg: "All fields are required to update.",
+      });
     }
-  
+
     const data = await applicationService.AproveOrRejectLAplication(
       SportApplication,
       id,
@@ -181,25 +180,24 @@ const office = "Sport_office";
     if (!data) {
       return res.status(400).json({
         status: false,
-        msg:"Fail To update"
-      })
+        msg: "Fail To update",
+      });
     }
 
     return res.status(200).json({
       status: true,
       msg: "Action is Submitted successfully.",
-      data:data
-    })
+      data: data,
+    });
   } catch (error) {
-    console.log(error)
+    console.log(error);
 
     return res.status(500).json({
       status: false,
-      msg:"Internal Server Error"
-    })
+      msg: "Internal Server Error",
+    });
   }
-
-}
+};
 export default {
   sendToSportApplication,
   getAllApplication,

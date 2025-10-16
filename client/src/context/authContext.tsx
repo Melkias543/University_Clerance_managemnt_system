@@ -36,7 +36,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     if (!user) return;
-  console.log("from context",user)
+  // console.log("from context",user.role)
     const fetchApplicantData = async () => {
       try {
         const data = await getData(user.userId);
@@ -55,7 +55,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             student: data.data.student,
             approvals: data.data.approvals,
           });
-          console.log("aplicant from context",applicantData)
+          // console.log("aplicant from context",applicantData)
           // toast.dismiss();
           // toast.success("Applicant Loaded!");
         }

@@ -147,3 +147,16 @@ student: '68dc28e151ba211d2e251e83', // example ObjectId
       approvals: []
     }
   });
+
+
+  /clearance/AproveOrRejectCollegeDean/${student}
+  /clearance/AproveOrRejectAtBookStore/${student}
+  /clearance/AproveOrRejectAtLibrary/${student}
+  /clearance/AproveOrRejectAtWomenAndYouth/${student}
+  /clearance/AproveOrRejectAtRegistral/${student}
+  /clearance/AproveOrRejectAtLoan/${student}
+  /clearance/AproveOrRejectAtDeptHead/${student}
+  /clearance/AproveOrRejectAtDormitory/${student}
+  /clearance/AproveOrRejectAtSport/${student}
+  /clearance/AproveOrRejectAtCaffe/${student}
+  /clearance/AproveOrRejectAtBookStore/${student}

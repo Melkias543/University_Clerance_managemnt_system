@@ -82,14 +82,16 @@ const register = async (req, res) => {
 
 const login = async (req, res) => {
   try {
-    const { university_email, password } = req.body;
-    if (!university_email || !password) {
+    // console.log(req.body)
+
+    const { university_email, email, password } = req.body;
+    if (!(university_email || email) || !password) {
       return res.status(404).json({
         status: false,
         msg: "All fields required.",
       });
     }
-    const data = { university_email, password };
+    const data = { university_email, email, password };
 
     const user = await authService.loginService(data);
     if (!user) {
@@ -98,18 +100,19 @@ const login = async (req, res) => {
         msg: "User Not found",
       });
     }
-
     const payload = {
       userId: user._id,
-      useName:user.full_name,
+      useName: user.full_name,
       role_Id: user.role,
     };
-
     const token = jwt.sign(payload, process.env.JWT_SECRET, {
       expiresIn: "1H",
     });
+    const roleName = user?.role?.role_name || user?.role_id || user?.role || "unknown";
+    console.log("hey",roleName);
     return res.status(201).json({
       status: true,
+
       //  msg: "student registered Successfully.",
       user: {
         userId: user._id,
@@ -117,18 +120,30 @@ const login = async (req, res) => {
         university_email: user.university_email,
         student_university_id: user.student_university_id,
         department: user.department,
-        //  year_of_study: user.year_of_study,
-        role: user.role,
+        year_of_study: user.year_of_study,
+        // role: roleName,
+        role: user?.role_id||user?.role?.role_name,
       },
       token,
     });
   } catch (error) {
+      if (error.message.includes("User not found")) {
+      return res.status(404).json({ msg: error.message });
+    }
+    if (error.message.includes("Incorrect password")) {
+      return res.status(401).json({ msg: error.message });
+    }
+
+    // For unexpected errors
+    console.error(error);
+    res.status(500).json({ msg: "Internal server error" });
+  }
     console.log(error);
     return res.status(500).json({
       status: false,
       msg: error.message || "Server Error.",
     });
-  }
+  
 };
 
 const logout = async (req, res) => {
