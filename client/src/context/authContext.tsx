@@ -1,6 +1,8 @@
 "use client";
 import { getData } from "@/Api/applyForClearanceApi";
 import AuthContextType from "@/types/context";
+import { LogOut } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -33,14 +35,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }, [user, token]);
   
 
-
+const router = useRouter()
   useEffect(() => {
-    if (!user) return;
-  // console.log("from context",user.role)
+    if (!user?.userId) return;
+    // console.log("from context",user.role)
     const fetchApplicantData = async () => {
       try {
+        console.log("user?.userId", user?.userId);
         const data = await getData(user.userId);
-        if (data.status) {
+        if (data) {
           setapplicantData({
             data: {
               full_name: data.data.full_name,
@@ -55,18 +58,26 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             student: data.data.student,
             approvals: data.data.approvals,
           });
-          // console.log("aplicant from context",applicantData)
-          // toast.dismiss();
-          // toast.success("Applicant Loaded!");
         }
       } catch (err: any) {
-
         console.log(err?.response?.data?.msg);
       }
     };
-  
+
     fetchApplicantData();
-  }, [user]);
+  }, [user?.userId]);
+  
+const logout = () => {
+  localStorage.removeItem("token");
+  localStorage.removeItem("user");
+  setToken(null);
+  setapplicantData(null);
+  setUser(null);
+   
+  router.push("/auth/login");
+};
+
+   
   
   return (
     <AuthContext.Provider
@@ -79,6 +90,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setIsLogged,
         applicantData,
         setapplicantData,
+        logout,
       }}
     >
       {children}

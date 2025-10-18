@@ -3,10 +3,14 @@ import { useState } from "react";
 import Link from "next/link";
 import { MdDashboard } from "react-icons/md";
 import { FaUser, FaCog, FaSignOutAlt } from "react-icons/fa";
+import { useAuth } from "@/context/authContext";
 
 const StaffSideBar = () => {
   const [active, setActive] = useState("Dashboard");
-
+const {logout} = useAuth()
+  const handleLogout = () => {
+  logout();
+}
   const menuItems = [
     { name: "Dashboard", icon: <MdDashboard />, href: "/dashboard/staff" },
     {
@@ -19,7 +23,7 @@ const StaffSideBar = () => {
     {
       name: "Logout",
       icon: <FaSignOutAlt className="text-red-500" />,
-      href: "/logout",
+      href: "/logout", onClick:handleLogout,
     },
   ];
 
@@ -35,9 +39,17 @@ const StaffSideBar = () => {
         {/* Menu */}
         <ul className="mt-4">
           {menuItems.map((item) => (
-            <Link key={item.name} href={item.href}>
+            <Link key={item.name} href={item.href} passHref>
               <li
-                onClick={() => setActive(item.name)}
+                onClick={(e) => {
+                  setActive(item.name);
+
+                  // Prevent default navigation if we handle onClick manually
+                  if (item.onClick) {
+                    e.preventDefault();
+                    item.onClick();
+                  }
+                }}
                 className={`flex items-center gap-3 px-6 py-3 cursor-pointer transition
       ${
         item.name === "Logout"

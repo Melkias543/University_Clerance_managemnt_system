@@ -19,6 +19,8 @@ const roleSchema = new mongoose.Schema(
         "women_affairs",
         "student_loan",
         "college_dean",
+        "try",
+        "milk"
       ],
     },
   },

@@ -224,7 +224,7 @@ const createRole = async (req,res) => {
     }
 
     return res.status(201).json({
-      status: false,
+      status: true,
       msg: "Role is created successfully.",
       data:role
     })

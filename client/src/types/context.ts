@@ -7,4 +7,5 @@
    setIsLogged: React.Dispatch<React.SetStateAction<boolean>>;
    applicantData:any;
    setapplicantData: React.Dispatch<React.SetStateAction<any>>;
+   logout:()=>void
  }

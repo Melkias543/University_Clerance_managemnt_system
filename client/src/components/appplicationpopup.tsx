@@ -69,6 +69,7 @@ const ClearancePopup: React.FC<ClearancePopupProps> = ({ open, onClose }) => {
         toast.dismiss();
         // console.log(submited.msg);
         toast.success(submited?.msg || "Application submitted successfully!"); // Success toast
+        setapplicantData(submited.data)
         router.push("/dashboard/students/application");
       }
     } catch (error: any) {
@@ -81,7 +82,7 @@ const ClearancePopup: React.FC<ClearancePopupProps> = ({ open, onClose }) => {
     }
   };
 
- 
+ console.log(applicantData)
   /**{data {
       full_name:full_name,
       university_email:university_email,

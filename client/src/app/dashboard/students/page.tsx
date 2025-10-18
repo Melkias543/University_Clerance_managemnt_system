@@ -10,7 +10,7 @@ import { useAuth } from "@/context/authContext";
 
 const DashboardContent = () => {
   const [showPopup, setShowPopup] = useState(false);
-const {applicantData}= useAuth()
+const {applicantData,user}= useAuth()
   return (
     <div className="p-8 bg-gray-50 min-h-screen">
       {/* Header */}
@@ -24,18 +24,18 @@ const {applicantData}= useAuth()
           </p>
         </div>
         :{/* Button triggers popup */}8{" "}
-        {applicantData ? (
+        {/* {applicantData ? (
           <p className="bg-gradient-to-r from-green-700 to-cyan-200 text-white font-bold text-lg md:text-xl px-4 py-2 rounded-lg shadow-md inline-block ">
-            {applicantData?.data?.full_name}
+            {user?.full_name}
           </p>
-        ) : (
+        ) : ( */}
           <Button
             onClick={() => setShowPopup(true)}
             className="flex items-center gap-2 bg-teal-700 hover:bg-teal-800 text-white px-4"
           >
             <FiSend /> Apply for Clearance
           </Button>
-        )}
+        {/* )} */}
       </div>
 
       {/* Popup Component */}

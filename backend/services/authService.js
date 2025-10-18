@@ -67,14 +67,16 @@ const loginService = async (data) => {
   
 
      user = await Student.findOne({ university_email }).populate("role");;
-console.log(user)
+// console.log(user)
   if (!user) {
       user = await Staff.findOne({ email }).populate('role_id');
   }
-  
-  if (!user) {
-    throw new Error("User Not Found with this Email.");
-    }
+    if (!user) {
+    return null
+  }
+  // if (!user) {
+  //   throw new Error("User Not Found with this Email.");
+  //   }
     let isMatch=null
  if (user.password.startsWith("$2b$")) {
    isMatch = bcrypt.compareSync(password, user.password);
