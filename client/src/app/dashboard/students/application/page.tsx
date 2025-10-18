@@ -32,7 +32,7 @@ const Page = () => {
 
   const [open, setOpen] = useState(false);
   const [openId, setOpenId] = useState<string | null>(null);
-
+const { applicantData, setapplicantData, user } = useAuth();
   const [lastSubmittedData, setLastSubmittedData] = useState<any>(null);
 
   // console.log(application);
@@ -59,13 +59,13 @@ const Page = () => {
       }
     };
     loadData();
-  }, []);
+  }, [applicantData]);
   // console.log(application);
 
-  const { applicantData, setapplicantData, user } = useAuth();
+  
 
   // console.log("user", user);
-  console.log("aplicant", applicantData);
+  // console.log("aplicant", applicantData);
   const handleApplication = async (to: string, id: string) => {
     // console.log("ID", to);
 
@@ -118,7 +118,7 @@ const Page = () => {
         </h1>
         {applicantData ? (
           <p className="bg-gradient-to-r from-green-700 to-cyan-200 text-white font-bold text-lg md:text-xl px-4 py-2 rounded-lg shadow-md inline-block ">
-            {applicantData?.data?.full_name}
+            {user.full_name}
           </p>
         ) : (
           <Button className="bg-[#0A6372] text-white px-5 py-2 rounded hover:bg-[#084f57] transition">

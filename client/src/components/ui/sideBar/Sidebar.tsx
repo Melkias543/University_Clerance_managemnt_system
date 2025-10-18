@@ -11,16 +11,28 @@ import {
   LogOut,
   FileText,
 } from "lucide-react";
+import { useAuth, } from "@/context/authContext";
+import { useRouter } from "next/navigation";
 
 export default function Sidebar() {
+  const {logout , user}=useAuth()
   const [active, setActive] = useState("Dashboard");
-
+  const handleLogout = () => {
+    logout();
+     console.log("user after logout (state):", user); // may still show old value
+     console.log("localStorage after logout:", localStorage.getItem("user"));
+  }
+  const router = useRouter()
   const menuItems = [
     { name: "Dashboard", icon: LayoutDashboard, href: "/dashboard/students" },
-    { name: "Application", icon: FileText, href: "/dashboard/students/application" },
+    {
+      name: "Application",
+      icon: FileText,
+      href: "/dashboard/students/application",
+    },
     { name: "Profile", icon: User, href: "/dashboard/students/profile" },
     { name: "Settings", icon: Settings, href: "/dashboard/students/setting" },
-    { name: "Logout", icon: LogOut, href: "/" },
+    { name: "LogoutMe", icon: LogOut, href: "/", onClick: handleLogout },
   ];
 
   return (
@@ -42,13 +54,20 @@ export default function Sidebar() {
             return (
               <Link key={item.name} href={item.href}>
                 <Button
+                  onClick={() => {
+                    // Call menu item action if it exists, otherwise navigate
+                    if (item.onClick) item.onClick();
+                    else router.push(item.href);
+
+                    // Set active menu item
+                    setActive(item.name);
+                  }}
                   variant={isActive ? "secondary" : "ghost"}
                   className={`w-full justify-start gap-3 px-6 py-5 text-[15px] ${
                     isActive
                       ? "bg-blue-50 text-blue-700 hover:bg-blue-100"
                       : "text-gray-700 hover:bg-gray-100"
                   }`}
-                  onClick={() => setActive(item.name)}
                 >
                   <Icon className="w-5 h-5" />
                   {item.name}

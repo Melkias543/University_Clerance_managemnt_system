@@ -87,6 +87,7 @@ export default function AdminDashboard() {
 
       const student = await getCearanceApplicantadmin();
       setStudent(student?.data);
+      console.log(student);
       setAproval(student?.data?.approvals);
       console.log(student?.data);
     } catch (error) {
@@ -143,20 +144,19 @@ export default function AdminDashboard() {
         </h2>
 
         <div className="space-y-3">
-          {student?.map((s, i) => (
-            <Card key={i} className="p-4 shadow-sm">
+          {student?.map((s) => (
+            <Card key={s._id} className="p-4 shadow-sm">
               <CardContent className="flex flex-col sm:flex-row sm:justify-between items-start sm:items-center gap-3 p-0">
                 <div>
                   <p className="font-semibold">{s.full_name}</p>
-                  <p className="text-sm text-gray-600">Dept:{s.department}</p>
+                  <p className="text-sm text-gray-600">Dept: {s.department}</p>
                   <p className="text-sm text-gray-500">{s.year_batch}</p>
                 </div>
                 <div>
                   <p className="font-semibold">{s.university_email}</p>
-
                   <p className="text-sm text-gray-500">ID: {s.university_id}</p>
                   <p className="text-sm text-gray-500">
-                    Date: {s.clearance_date}
+                    Application Date: {s.clearance_date}
                   </p>
                 </div>
                 <div>
@@ -166,35 +166,45 @@ export default function AdminDashboard() {
                     </DialogTrigger>
                     <DialogContent>
                       <DialogHeader>
-                        <DialogTitle>Here Student approvals and Rejections with respective office</DialogTitle>
+                        <DialogTitle>
+                          Here Student approvals and Rejections with respective
+                          office
+                        </DialogTitle>
                         <DialogDescription asChild>
                           <div className="mt-3 p-4 bg-white rounded-lg shadow-lg border border-gray-200 w-full sm:w-96">
                             <h3 className="font-semibold mb-3 text-gray-700">
                               Approvals & Rejections
                             </h3>
-                            {aproval?.map((a, i) => {
-                              // color coding status
-                              let statusColor =
-                                a.status.toLowerCase() === "aproved"
-                                  ? "text-green-600"
-                                  : a.status.toLowerCase() === "rejected"
-                                  ? "text-red-600"
-                                  : "text-yellow-600";
+                            {s.approvals && s.approvals.length > 0 ? (
+                              s.approvals.map((a) => {
+                                const statusColor =
+                                  a.status.toLowerCase() === "aproved"
+                                    ? "text-green-600"
+                                    : a.status.toLowerCase() === "rejected"
+                                    ? "text-red-600"
+                                    : "text-yellow-600";
 
-                              return (
-                                <div
-                                  key={i}
-                                  className="flex justify-between items-center gap-4 py-2 px-3 mb-2 rounded hover:bg-gray-50 transition"
-                                >
-                                  <p className="font-medium text-gray-700">
-                                    At {a.office}
-                                  </p>
-                                  <p className={`font-semibold ${statusColor}`}>
-                                    {a.status}
-                                  </p>
-                                </div>
-                              );
-                            })}
+                                return (
+                                  <div
+                                    key={a._id}
+                                    className="flex justify-between items-center gap-4 py-2 px-3 mb-2 rounded hover:bg-gray-50 transition"
+                                  >
+                                    <p className="font-medium text-gray-700">
+                                      At {a.office}
+                                    </p>
+                                    <p
+                                      className={`font-semibold ${statusColor}`}
+                                    >
+                                      {a.status}
+                                    </p>
+                                  </div>
+                                );
+                              })
+                            ) : (
+                              <div>
+                                <p>No status found.</p>
+                              </div>
+                            )}
                           </div>
                         </DialogDescription>
                       </DialogHeader>

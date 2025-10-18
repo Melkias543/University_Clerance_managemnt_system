@@ -21,11 +21,11 @@ import { useRouter } from "next/navigation";
 
 export default function register() {
   const [error, setError] = useState("");
-  const [student, setStudent] = useState<Student>({
+  const [student, setStudent] = useState<Partial<Student>>({
     full_name: "",
     university_email: "",
 
-    role: "68dc03aebc8cd8eeebb9331c", 
+    role: "68ef9daab57d4a3706242e1f",
     student_university_id: "",
     password: "",
     department: "",

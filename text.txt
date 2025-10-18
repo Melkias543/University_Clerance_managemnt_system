@@ -149,14 +149,14 @@ student: '68dc28e151ba211d2e251e83', // example ObjectId
   });
 
 
-  /clearance/AproveOrRejectCollegeDean/${student}
-  /clearance/AproveOrRejectAtBookStore/${student}
-  /clearance/AproveOrRejectAtLibrary/${student}
-  /clearance/AproveOrRejectAtWomenAndYouth/${student}
-  /clearance/AproveOrRejectAtRegistral/${student}
-  /clearance/AproveOrRejectAtLoan/${student}
-  /clearance/AproveOrRejectAtDeptHead/${student}
-  /clearance/AproveOrRejectAtDormitory/${student}
-  /clearance/AproveOrRejectAtSport/${student}
-  /clearance/AproveOrRejectAtCaffe/${student}
-  /clearance/AproveOrRejectAtBookStore/${student}
+///Componnents Left 
+- admin close application
+-after one user is applied close application form 
+-Roles & Staff Componnents
+-needed Student by each staff 
+- 
+
+
+logic to  that have to been thinked.
+----a student that is in staff or needed for some case cant aproved this may prevented by system.
+                  

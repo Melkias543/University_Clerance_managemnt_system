@@ -109,7 +109,7 @@ const login = async (req, res) => {
       expiresIn: "1H",
     });
     const roleName = user?.role?.role_name || user?.role_id || user?.role || "unknown";
-    console.log("hey",roleName);
+    // console.log("hey", roleName);
     return res.status(201).json({
       status: true,
 
@@ -122,29 +122,30 @@ const login = async (req, res) => {
         department: user.department,
         year_of_study: user.year_of_study,
         // role: roleName,
-        role: user?.role_id||user?.role?.role_name,
+        role: user?.role_id || user?.role?.role_name,
       },
       token,
     });
   } catch (error) {
-      if (error.message.includes("User not found")) {
-      return res.status(404).json({ msg: error.message });
-    }
-    if (error.message.includes("Incorrect password")) {
-      return res.status(401).json({ msg: error.message });
-    }
+    //     if (error.message.includes("User not found")) {
+    //     return res.status(404).json({ msg: error.message });
+    //   }
+    //   if (error.message.includes("Incorrect password")) {
+    //     return res.status(401).json({ msg: error.message });
+    //   }
 
-    // For unexpected errors
-    console.error(error);
-    res.status(500).json({ msg: "Internal server error" });
-  }
+    //   // For unexpected errors
+    //   console.error(error);
+    //   res.status(500).json({ msg: "Internal server error" });
+    // }
     console.log(error);
     return res.status(500).json({
       status: false,
       msg: error.message || "Server Error.",
     });
   
-};
+  };
+}
 
 const logout = async (req, res) => {
   const blacklistedTokens = new Set();
@@ -170,4 +171,4 @@ const logout = async (req, res) => {
 
 
 
-export default { register, login, logout };
+export default { register, login, logout }

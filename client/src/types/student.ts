@@ -10,6 +10,7 @@ export interface Approvals {
 }
 
 export interface Student {
+  
   student_id?: string;
   full_name: String;
   university_email: string;

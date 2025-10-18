@@ -4,6 +4,7 @@ import Sidebar from "@/components/ui/sideBar/Sidebar";
 import { useAuth } from "@/context/authContext";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { MdShoppingCartCheckout } from "react-icons/md";
 
 export default function DashboardLayout({
   children,
@@ -23,8 +24,12 @@ export default function DashboardLayout({
   if (!user) {
     // Optional: show a loading screen while redirecting
     return (
-      <div className="flex items-center justify-center h-screen text-gray-600">
-        Redirecting to login...
+      <div className="flex flex-col items-center justify-center h-screen bg-gray-50 text-gray-700">
+        {/* Spinner */}
+        <MdShoppingCartCheckout/>
+        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500 border-solid mb-4"></div>
+        {/* Message */}
+        <p className="text-lg font-medium">Redirecting to login...</p>
       </div>
     );
   }
