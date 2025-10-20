@@ -18,7 +18,7 @@ const {logout} = useAuth()
       icon: <MdDashboard />,
       href: "/dashboard/staff/aplicants",
     },
-    { name: "Profile", icon: <FaUser />, href: "/dashboard/staff/profile" },
+    { name: "IssuedStudent", icon: <FaUser />, href: "/dashboard/staff/issuedStudent" },
     { name: "Settings", icon: <FaCog />, href: "/settings" },
     {
       name: "Logout",
