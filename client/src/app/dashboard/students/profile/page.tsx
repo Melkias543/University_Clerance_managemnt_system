@@ -24,8 +24,8 @@ const studentprofile = () => {
   </div>
 
   {/* Right side (button) */}
-  <Button className="bg-[#0A6372] text-white p-4 rounded text-white px-4 py-2  hover:cursor-pointer">
-    Edit Profile
+  <Button className="bg-[#0A6372] text-white p-4 rounded text-white px-4 py-2  hover:cursor-pointer sm:p-2">
+    Edit 
   </Button>
 </div>
 
