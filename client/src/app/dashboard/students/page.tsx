@@ -10,6 +10,8 @@ import { useAuth } from "@/context/authContext";
 
 const DashboardContent = () => {
   const [showPopup, setShowPopup] = useState(false);
+
+  
 const {applicantData,user}= useAuth()
   return (
     <div className="p-8 bg-gray-50 min-h-screen">

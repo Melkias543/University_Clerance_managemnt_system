@@ -69,10 +69,10 @@ export default function Roles() {
     e.preventDefault();
     // console.log("from page", edit._id, edit.role_name);
     if (!edit._id) return;
-if (!edit.role_name) {
-  toast.error("Role name is missing!");
-  return;
-}
+    if (!edit.role_name) {
+      toast.error("Role name is missing!");
+      return;
+    }
     try {
       const updated = await editRole(edit._id, edit.role_name!);
       console.log(updated.data.msg);
@@ -150,9 +150,11 @@ if (!edit.role_name) {
           )}
           {isEditing && (
             <div className="w-80">
-            
-              <span onClick={()=>setIsEditing(false)} className="flex items-end m-auto justify-end text-red-600 hover:cursor-pointer">
-                <IoIosClose  size={30} />
+              <span
+                onClick={() => setIsEditing(false)}
+                className="flex items-end m-auto justify-end text-red-600 hover:cursor-pointer"
+              >
+                <IoIosClose size={30} />
               </span>
               <form
                 onSubmit={handleEdit}

@@ -28,6 +28,8 @@ const AdminSidebar = () => {
       icon: <LiaCriticalRole />,
       href: "/dashboard/admin/roles",
     },
+    { name: "Staffs", icon: <FaUser />, href: "/dashboard/admin/staff" },
+
     { name: "Settings", icon: <FaCog />, href: "/settings" },
     {
       name: "Logout",

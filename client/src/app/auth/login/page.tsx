@@ -68,7 +68,7 @@ export default function Login() {
     password: "",
   });
 const [loading, setLoading]= useState(false)
-// console.log(user)
+console.log(user)
 // console.log({user},token,isLogged)
   const router = useRouter();
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -76,55 +76,55 @@ const [loading, setLoading]= useState(false)
 
     setStudent((prev) => ({ ...prev, [name]: value }));
   };
-  // console.log(student);
+  console.log(student);
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    // console.log("triggered");
-    try {
-      const loginData = {
-        email: student.email || undefined,
-        university_email: student.university_email,
-        password: student.password,
-      };
-       setLoading(true)
-      const res = await api.post("/auth/login", loginData);
-      // console.log("Sent student:", student);
-      // console.log("Response:", res.data);
-      // console.log(res);
-      if (res.data.status) {
-        toast.dismiss();
-        setIsLogged(true);
-        setToken(res?.data?.token);
-        setUser(res?.data?.user);
-      
-        if (!user) return; 
-        if (
-          user?.role?.role_name === "student" ||
-          user?.role === "student"
-        ) {
-          router.push("/dashboard/students");
-        } else if (user?.role?.role_name === "admin") {
-          router.push("/dashboard/admin");
-        } else {
-          router.push("/dashboard/staff");
-        }
+ const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+   event.preventDefault();
+   setLoading(true);
 
-          setLoading(false);
-          toast.success(res?.data.msg || "Logged IN");
-    } 
-      else {
-        setError(res.data.msg || "Failed.");
-        setLoading(false);
-      }
-    } catch (error: any) {
-      // console.log(error);
-      setError(error?.response?.data?.msg || "Failed.");
-      toast.error(error?.response?.data?.msg || "Failed.");
-      setLoading(false);
-      
-    }
-  };
+   try {
+     const loginData = {
+       email: student.email || undefined,
+       university_email: student.university_email,
+       password: student.password,
+     };
+
+     const res = await api.post("/auth/login", loginData);
+
+     if (res.data.status) {
+       const loggedUser = res.data.user;
+       const token = res.data.token;
+
+       setIsLogged(true);
+       setToken(token);
+       setUser(loggedUser);
+
+       toast.dismiss();
+setLoading(false)
+       // ✅ Use res.data.user directly for redirection
+       if (
+         loggedUser?.role?.role_name === "student" ||
+         loggedUser?.role === "student"
+       ) {
+         router.push("/dashboard/students");
+       } else if (loggedUser?.role?.role_name === "admin") {
+         router.push("/dashboard/admin");
+       } else {
+         router.push("/dashboard/staff");
+       }
+              toast.success(res.data.msg || "Logged in successfully");
+
+     } else {
+       setError(res.data.msg || "Login failed");
+     }
+   } catch (error: any) {
+     setError(error?.response?.data?.msg || "Failed.");
+     toast.error(error?.response?.data?.msg || "Failed.");
+   } finally {
+     setLoading(false);
+   }
+ };
+
   return (
     <div>
       {loading ? (
