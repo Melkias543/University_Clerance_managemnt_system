@@ -14,6 +14,6 @@
 export interface Role {
   role_id?: string;
   role: string;
-  _id?: string;
+  _id: string;
   role_name?: string;
 }

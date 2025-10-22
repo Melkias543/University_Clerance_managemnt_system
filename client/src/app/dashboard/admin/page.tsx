@@ -1,5 +1,8 @@
 "use client";
 
+import { ClearanceProgressChart } from "@/components/admin/AdminCharts";
+import { DepartmentClearanceChart } from "@/components/admin/PieChart";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useState } from "react";
 
 interface Student {
@@ -155,11 +158,19 @@ export default function AdminDashboard() {
             </div>
           </div>
         ))} */}
-
-        <h1>Overall of All Student Data</h1>
-        <h1>Overall of All Staff Data Whith Their Role</h1>
-        <h1>Overall of All Student Data</h1>
-        <h1>Overall of All Student Data</h1>
+        <Card>
+          <CardHeader>
+            <CardTitle>Total Students</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-3xl font-bold">1,230</p>
+            <p className="text-sm text-muted-foreground">+10 this week</p>
+          </CardContent>
+        </Card>
+      </div>
+      <div className="grid gap-4 md:grid-cols-2">
+        <ClearanceProgressChart />
+        <DepartmentClearanceChart />
       </div>
     </div>
   );

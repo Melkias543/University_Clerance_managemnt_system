@@ -23,7 +23,8 @@ const {logout} = useAuth()
     {
       name: "Logout",
       icon: <FaSignOutAlt className="text-red-500" />,
-      href: "/logout", onClick:handleLogout,
+      href: "/logout",
+      onClick: handleLogout,
     },
   ];
 
