@@ -2,7 +2,6 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import {
   Table,
   TableBody,
@@ -14,68 +13,26 @@ import {
 import { FiPlus } from "react-icons/fi";
 import { useAuth } from "@/context/authContext";
 import { useEffect, useState } from "react";
-import { fetchall } from "@/Api/isued";
+import { Aprove, Delete, fetchall } from "@/Api/isued";
 import { IssuedRecord } from "@/types/issue";
-import { Flag } from "lucide-react";
-
+import StudentIssue from "@/components/StaffsPages/createIssue";
+import { toast } from "react-toastify";
 export default function StaffDashboard() {
-  const students = [
-    {
-      name: "Google",
-      role: "SWE Intern",
-      id: "22/04/2022",
-      year: "22/04/2022",
-      status: "Cleared",
-    },
-    {
-      name: "Microsoft",
-      role: "SWE Intern",
-      id: "22/04/2022",
-      year: "22/04/2022",
-      status: "Uncleared",
-    },
-    {
-      name: "INSA",
-      role: "SWE Intern",
-      id: "22/04/2022",
-      year: "22/04/2022",
-      status: "Cleared",
-    },
-    {
-      name: "Icog",
-      role: "SWE Intern",
-      id: "22/04/2022",
-      year: "22/04/2022",
-      status: "Uncleared",
-    },
-    {
-      name: "IE Networks",
-      role: "SWE Intern",
-      id: "22/04/2022",
-      year: "22/04/2022",
-      status: "Cleared",
-    },
-    {
-      name: "Addis Software",
-      role: "SWE Intern",
-      id: "22/04/2022",
-      year: "22/04/2022",
-      status: "Uncleared",
-    },
-    {
-      name: "INSA",
-      role: "SWE Intern",
-      id: "22/04/2022",
-      year: "22/04/2022",
-      status: "Cleared",
-    },
-  ];
-
+  const[ role, setRole] =useState(null)
+  const [issueToEdit, setIssueToEdit] = useState<IssuedRecord | null>(null);
+  const [showPopup, setShowPopup] = useState(false);
   const [loading, setLaoding] = useState(false);
   const [issudeStudent, setIssuedstudent] = useState<IssuedRecord[]>([]);
   const { user } = useAuth();
-  console.log("here", user?.role?.role_name);
-  const role = user?.role?.role_name;
+  useEffect(() => {
+    const userString = localStorage.getItem("user");
+if (userString) {
+  const user = JSON.parse(userString);
+  console.log("local user", user?.role?.role_name);
+  setRole(user?.role?.role_name);
+}},[])
+  console.log("rolerole",role);
+
   useEffect(() => {
     getAll();
   }, [role]);
@@ -84,7 +41,7 @@ export default function StaffDashboard() {
     try {
       setLaoding(true);
       const data = await fetchall(role);
-      console.log("data", data.data);
+      // console.log("data", data.data);
       setIssuedstudent(data.data);
       setLaoding(false);
     } catch (error) {
@@ -92,6 +49,51 @@ export default function StaffDashboard() {
       setLaoding(false);
     }
   };
+// console.log("role",role)
+// Melkias
+  const deleteIT = async (id: string, role:string) => {
+    try {
+      console.log(id);
+      console.log("hee role", role);
+
+      const deleted = await Delete(id, role);
+      console.log("res", deleted.msg);
+      toast.success(deleted.msg);
+    } catch (error: any) {
+      console.log(error);
+      const message =
+        error?.response?.data?.msg ||
+        error?.response?.data?.message ||
+        error?.message ||
+        "Server Error";
+
+      toast.error(`${message || " Fail"} `);
+      console.log("failed:", error);
+    }
+  };
+  // console.log(issueToEdit);
+  const handleAprove = async (id: string, value: string,role:string) => { 
+    console.log(id,value,role)
+
+    try {
+      
+      const res = await Aprove(id, value, role)
+      console.log(res.msg)
+         toast.success(res.msg);
+    } catch (error:any) {
+      console.log(error);
+      const message =
+        error?.response?.data?.msg ||
+        error?.response?.data?.message ||
+        error?.message ||
+        "Server Error";
+
+      toast.error(`${message || " Fail"} `);
+      console.log("failed:", error);
+    }
+  }
+    
+    ;
   return (
     <div>
       {loading ? (
@@ -105,11 +107,20 @@ export default function StaffDashboard() {
           <Card className="max-w-5xl mx-auto shadow-md">
             <CardHeader className="flex justify-between items-center">
               <CardTitle className="text-lg font-semibold text-gray-700">
-                Students Needed
+                Students Issued In Some Case.
               </CardTitle>
-              <Button className="bg-teal-700 hover:bg-teal-800 text-white">
+              <Button
+                onClick={() => setShowPopup(!showPopup)}
+                className="bg-teal-800 hover:bg-teal-600 text-white hover:cursor-pointer"
+              >
                 <FiPlus className="mr-2" /> Add Student
               </Button>
+
+              <StudentIssue
+                issueToEdit={issueToEdit}
+                open={showPopup}
+                onClose={() => setShowPopup(false)}
+              />
             </CardHeader>
 
             <CardContent>
@@ -130,6 +141,9 @@ export default function StaffDashboard() {
                         issued_reason
                       </TableHead>
                       <TableHead className="text-center font-semibold">
+                        Quantity
+                      </TableHead>
+                      <TableHead className="text-center font-semibold">
                         Action And Action
                       </TableHead>
                     </TableRow>
@@ -138,7 +152,7 @@ export default function StaffDashboard() {
                   <TableBody>
                     {issudeStudent.map((student, index) => (
                       <TableRow
-                        key={index}
+                        key={student._id}
                         className={`${index % 2 === 1 ? "bg-blue-50/40" : ""}`}
                       >
                         <TableCell className="text-center">
@@ -148,32 +162,61 @@ export default function StaffDashboard() {
                           {student?.department}
                         </TableCell>
                         <TableCell className="text-center">
-                          {student?.issued_reason}
+                          {student?.student_Id}
+                        </TableCell>
+                        <TableCell className="text-center">
+                          {student.issued_reason}
                         </TableCell>
                         <TableCell className="text-center">
                           {student.quantity}
                         </TableCell>
                         <TableCell className="text-center space-x-2">
-                          <Badge
-                            className={`${
-                              student.status === "Cleared"
-                                ? "bg-green-500 hover:bg-green-600"
-                                : "bg-red-500 hover:bg-red-600"
-                            } text-white px-3`}
+                          <select
+                            name="status"
+                            id="status"
+                            value={student.status} // default value
+                            onChange={(e) =>
+                              handleAprove(student._id, e.target.value, role)
+                            } // handle change
+                            className={`text-white px-3 py-2 rounded-md text-center cursor-pointer
+    ${
+      student.status === "cleared"
+        ? "bg-green-500 hover:bg-green-600"
+        : student.status === "with_issue"
+        ? "bg-red-500 hover:bg-red-600"
+        : student.status === "pending"
+        ? "bg-amber-400 hover:bg-amber-500"
+        : "bg-gray-400"
+    }`}
                           >
-                            {student.status}
-                          </Badge>
-                          <Button
-                            size="sm"
+                            <option value="cleared">Cleared</option>
+                            <option value="with_issues">With Issue</option>
+                            <option value="pending">Pending</option>
+                          </select>
+
+                          {/* <Button
+                            size="sm""pending", "with_issues", "cleared
                             variant="outline"
                             className="text-xs border-gray-300"
                           >
                             View detail
-                          </Button>
+                          </Button> */}
                           <Button
+                            onClick={() => {
+                              setIssueToEdit(student);
+                              setShowPopup(true);
+                            }}
                             size="sm"
                             variant="outline"
-                            className="text-xs border-gray-300 bg-red-700"
+                            className="text-xs bg-blue-700 hover:bg-blue-500 hover:cursor-pointer border-gray-300"
+                          >
+                            Edit Issue
+                          </Button>
+                          <Button
+                            onClick={() => deleteIT(student._id, role)}
+                            size="sm"
+                            variant="outline"
+                            className="text-xs border-gray-300 bg-red-700 hover:bg-red-500 hover:cursor-pointer"
                           >
                             Delete
                           </Button>
