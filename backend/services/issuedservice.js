@@ -71,7 +71,8 @@ const aproveIsue = async (model,id,status) => {
           {
             new: true,
           }
-        );
+    );
+    console.log(data)
         return data;
   } catch (error) {
     console.log(error)

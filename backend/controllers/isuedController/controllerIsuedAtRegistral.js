@@ -30,7 +30,7 @@ const createIssuedRecordAtRegistral = async (req, res) => {
     }
     return res.status(201).json({
       status: true,
-      message: "Issued recorded At BookStore created",
+      message: "Issued recorded At Registral created",
       data: issued,
     });
   } catch (error) {
@@ -75,7 +75,7 @@ const getSingleIssuedAtRegistral = async (req, res) => {
       });
     }
 
-    const data = await issuedservice.singleIsuedStudent(id, IssuedAtRegistral);
+    const data = await issuedservice.singleIsuedStudent(id, IssuedAtRegistrar);
     if (!data) {
       return res.status(404).json({
         status: false,

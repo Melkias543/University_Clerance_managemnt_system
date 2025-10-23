@@ -30,7 +30,7 @@ const createIssuedRecordAtSport = async (req, res) => {
     }
     return res.status(201).json({
       status: true,
-      message: "Issued recorded At BookStore created",
+      message: "Issued recorded At Sport created",
       data: issued,
     });
   } catch (error) {

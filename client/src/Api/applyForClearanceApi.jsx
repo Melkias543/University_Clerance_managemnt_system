@@ -51,9 +51,10 @@ const getRequestUrl = {
   sport_office: "/clearance/getAllFromSport",
   dept_head: "/clearance/getAllFromDeptHead",
   librarian: "/clearance/getAllFromLibrary",
-  student_loan: "/clearance/getAllFromRegistral",
+  registrar_office: "/clearance/getAllFromRegistral",
   college_dean: "/clearance/getAllFromCollegeDean",
   women_affairs: "/clearance/getAllFromWomenAndYouth",
+  student_loan: "/clearance/getAllFromLoan",
 };
 
 
@@ -76,7 +77,8 @@ export const approvalUrls = {
   Sport: "/clearance/AproveOrRejectAtSport",
   Dept_Head: "/clearance/AproveOrRejectAtDeptHead",
   librarian: "/clearance/AproveOrRejectAtLibrary",
-  student_loan: "/cjl",
+  registrar_office: "/clearance/AproveOrRejectAtRegistral",
+  student_loan: "/clearance/AproveOrRejectAtLoan",
   college_dean: "/clearance/AproveOrRejectCollegeDean",
   women_affairs: "/clearance/AproveOrRejectAtWomenAndYouth",
 };

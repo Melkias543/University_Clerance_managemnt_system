@@ -197,7 +197,7 @@ const updateStatusIssuedDeptHead = async(req, res) => {
     })
   }
 
-  const aproved = await issuedservice.aproveIsue(IssuedDeptHead, id, status)
+  const aproved = await issuedservice.aproveIsue(IssuedAtDeptHead, id, status)
   if (!aproved) {
     return res.status(400).json({
       status: false,
