@@ -30,7 +30,7 @@ const createIssuedRecordDormitory = async (req, res) => {
     }
     return res.status(201).json({
       status: true,
-      message: "Issued recorded At BookStore created",
+      message: "Issued recorded At Dormitory created",
       data: issued,
     });
   } catch (error) {
@@ -46,7 +46,7 @@ const createIssuedRecordDormitory = async (req, res) => {
 // Get all issued recordDormitorys for department
 const getIssuedRecordDormitorys = async (req, res) => {
   try {
-    const issuedList = await issuedservice.getAllIssued(IssuedDormitory);
+    const issuedList = await issuedservice.getAllIssued(IssuedAtDormitory);
     if (!issuedList) {
       return res.status(400).json({
         status: false,

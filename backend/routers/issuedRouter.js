@@ -91,29 +91,29 @@ router.put(
   issuedDormitoryController.updateStatusIssuedDormitory
 );
 
-// ======================= 🧾 REGISTRAR =======================
+// ======================= 🧾 REGISTRAl =======================
 router.post(
-  "/IssueSaveatRegistrar",
+  "/IssueSaveatRegistral",
   issuedRegistrarController.createIssuedRecordAtRegistral
 );
 router.get(
-  "/getAllIsueFromRegistrar",
+  "/getAllIsueFromRegistral",
   issuedRegistrarController.getIssuedRecordAtRegistrals
 );
 router.get(
-  "/getSingleIsueFromRegistrar/:id",
+  "/getSingleIsueFromRegistral/:id",
   issuedRegistrarController.getSingleIssuedAtRegistral
 );
 router.put(
-  "/updateIssuedAtRegistrar/:id",
+  "/updateIssuedAtRegistral/:id",
   issuedRegistrarController.updateIssuedRecordAtRegistral
 );
 router.delete(
-  "/deleteIssuedAtRegistrar/:id",
+  "/deleteIssuedAtRegistral/:id",
   issuedRegistrarController.deleteIssuedRecordAtRegistral
 );
 router.put(
-  "/aproveStatusAtRegistrar/:id",
+  "/aproveStatusAtRegistral/:id",
   issuedRegistrarController.updateStatusIssuedAtRegistral
 );
 
@@ -162,7 +162,8 @@ router.put(
 );
 router.delete(
   "/deleteIssuedAtWomenYouth/:id",
-  issuedWomenYouthController.deleteIssuedRecordAtWomenAndYoth)
+  issuedWomenYouthController.deleteIssuedRecordAtWomenAndYoth
+);
 router.put(
   "/aproveStatusAtWomenYouth/:id",
   issuedWomenYouthController.updateStatusIssuedAtWomenAndYoth

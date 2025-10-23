@@ -12,17 +12,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { FiPlus } from "react-icons/fi";
+import { useAuth } from "@/context/authContext";
+import { useEffect, useState } from "react";
+import { fetchall } from "@/Api/isued";
+import { IssuedRecord } from "@/types/issue";
+import { Flag } from "lucide-react";
 
 interface StudentData {
   student_name: string;
@@ -147,8 +142,14 @@ export default function StaffDashboard() {
   };
 
   return (
-    <div className="p-6 min-h-screen bg-gray-50">
-      <h1 className="text-3xl font-bold text-center mb-6">Staff Dashboard</h1>
+    <div>
+      {loading ? (
+        <div>Loading...</div>
+      ) : (
+        <div className="p-6 min-h-screen bg-gray-50">
+          <h1 className="text-3xl font-bold text-center mb-6">
+            Staff Dashboard
+          </h1>
 
       <Card className="max-w-5xl mx-auto shadow-md">
         <CardHeader className="flex justify-between items-center">
@@ -339,16 +340,52 @@ export default function StaffDashboard() {
                         variant="outline"
                         className="text-xs border-gray-300"
                       >
-                        View detail
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
-        </CardContent>
-      </Card>
+                        <TableCell className="text-center">
+                          {student?.student_name}
+                        </TableCell>
+                        <TableCell className="text-center">
+                          {student?.department}
+                        </TableCell>
+                        <TableCell className="text-center">
+                          {student?.issued_reason}
+                        </TableCell>
+                        <TableCell className="text-center">
+                          {student.quantity}
+                        </TableCell>
+                        <TableCell className="text-center space-x-2">
+                          <Badge
+                            className={`${
+                              student.status === "Cleared"
+                                ? "bg-green-500 hover:bg-green-600"
+                                : "bg-red-500 hover:bg-red-600"
+                            } text-white px-3`}
+                          >
+                            {student.status}
+                          </Badge>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            className="text-xs border-gray-300"
+                          >
+                            View detail
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            className="text-xs border-gray-300 bg-red-700"
+                          >
+                            Delete
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
     </div>
   );
 }
