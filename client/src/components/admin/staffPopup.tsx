@@ -35,21 +35,6 @@ const StaffPopup: React.FC<StaffPopupProps> = ({
     role_id: "",
   });
 
-  // const [input, setInput] = useState<Staff>({
-  //   _id: staffToEdit?._id || "",
-  //   full_name: staffToEdit?.full_name || "",
-  //   email: staffToEdit?.email || "",
-  //   password: staffToEdit?.password,
-  //   salary: staffToEdit?.salary || 0,
-  //   hired_date: staffToEdit?.hired_date.split("T")[0],
-  //   role_id:
-  //     typeof staffToEdit?.role_id === "object"
-  //       ? staffToEdit?.role_id._id
-  //       : staffToEdit?.role_id || "",
-  // });
-  //   console.log("formData", staffToEdit?.hired_date)
-
-  //     ;
   const [roles, setRoles] = useState<Role[]>([]);
 
   useEffect(() => {

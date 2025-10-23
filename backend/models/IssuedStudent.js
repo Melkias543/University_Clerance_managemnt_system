@@ -26,7 +26,7 @@ const isuedSchema = mongoose.Schema(
       type: String,
       enum: ["pending", "with_issues", "cleared"],
       default: "with_issues",
-    }
+    },
   },
   {
     timestamps: true,

@@ -1,4 +1,5 @@
 import api from "@/config/axiosConfig";
+import { IssuedRecord } from "@/types/issue";
 
 
 type RoleKey =
@@ -44,50 +45,107 @@ const getAll: Record<RoleKey, string> = {
 
 // 🟣 GET SINGLE (GET by ID)
 const getSingle = {
-  book_store_keeper: "/issudeStudent/getSingleIsueFromBokStore/:id",
-  librarian: "/issudeStudent/getSingleIsueFromLibrary/:id",
-  sport_office: "/issudeStudent/getSingleIsueFromSport/:id",
-  women_affairs: "/issudeStudent/getSingleIsueFromWomenYouth/:id",
-  cafteria: "/issudeStudent/getSingleIsueFromCafeteria/:id",
-  dormitory_office: "/issudeStudent/getSingleIsueFromDormitory/:id",
-  registrar_office: "/issudeStudent/getSingleIsueFromRegistral/:id",
-  student_loan: "/issudeStudent/getSingleIsueFromStudentLoan/:id",
-  dept_head: "/issudeStudent/getSingleIsueFromDepartmentHead/:id",
-  college_dean: "/issudeStudent/getSingleIsueFromCollegeDean/:id",
+  book_store_keeper: "/issudeStudent/getSingleIsueFromBokStore",
+  librarian: "/issudeStudent/getSingleIsueFromLibrary",
+  sport_office: "/issudeStudent/getSingleIsueFromSport",
+  women_affairs: "/issudeStudent/getSingleIsueFromWomenYouth",
+  cafteria: "/issudeStudent/getSingleIsueFromCafeteria",
+  dormitory_office: "/issudeStudent/getSingleIsueFromDormitory",
+  registrar_office: "/issudeStudent/getSingleIsueFromRegistral",
+  student_loan: "/issudeStudent/getSingleIsueFromStudentLoan",
+  dept_head: "/issudeStudent/getSingleIsueFromDepartmentHead",
+  college_dean: "/issudeStudent/getSingleIsueFromCollegeDean",
 };
 
 // 🔴 DELETE (DELETE by ID)
 const TOdelete = {
-  book_store_keeper: "/issudeStudent/deleteIssuedAtBookstore/:id",
-  librarian: "/issudeStudent/deleteIssuedAtLibrary/:id",
-  sport_office: "/issudeStudent/deleteIssuedAtSport/:id",
-  women_youth: "/issudeStudent/deleteIssuedAtWomenYouth/:id",
-  cafteria: "/issudeStudent/deleteIssuedAtCafeteria/:id",
-  dormitory_office: "/issudeStudent/deleteIssuedAtDormitory/:id",
-  registrar_office: "/issudeStudent/deleteIssuedAtRegistral/:id",
-  student_loan: "/issudeStudent/deleteIssuedAtStudentLoan/:id",
-  dept_head: "/issudeStudent/deleteIssuedAtDepartmentHead/:id",
-  college_dean: "/issudeStudent/deleteIssuedAtCollegeDean/:id",
+  book_store_keeper: "/issudeStudent/deleteIssuedAtBookstore",
+  librarian: "/issudeStudent/deleteIssuedAtLibrary",
+  sport_office: "/issudeStudent/deleteIssuedAtSport",
+  women_youth: "/issudeStudent/deleteIssuedAtWomenYouth",
+  cafteria: "/issudeStudent/deleteIssuedAtCafeteria",
+  dormitory_office: "/issudeStudent/deleteIssuedAtDormitory",
+  registrar_office: "/issudeStudent/deleteIssuedAtRegistral",
+  student_loan: "/issudeStudent/deleteIssuedAtStudentLoan",
+  dept_head: "/issudeStudent/deleteIssuedAtDepartmentHead",
+  college_dean: "/issudeStudent/deleteIssuedAtCollegeDean",
 };
 
 // 🟠 APPROVE STATUS (PUT)
 const approve = {
-  book_store_keeper: "/issudeStudent/aproveStatusAtBookStore/:id",
-  librarian: "/issudeStudent/aproveStatusAtLibrary/:id",
-  sport_office: "/issudeStudent/aproveStatusAtSport/:id",
-  women_affairs: "/issudeStudent/aproveStatusAtWomenYouth/:id",
-  cafteria: "/issudeStudent/aproveStatusAtCafeteria/:id",
-  dormitory_office: "/issudeStudent/aproveStatusAtDormitory/:id",
-  registrar_office: "/issudeStudent/aproveStatusAtRegistral/:id",
-  student_loan: "/issudeStudent/aproveStatusAtStudentLoan/:id",
-  dept_head: "/issudeStudent/aproveStatusAtDepartmentHead/:id",
-  college_dean: "/issudeStudent/aproveStatusAtCollegeDean/:id",
+  book_store_keeper: "/issudeStudent/aproveStatusAtBookStore",
+  librarian: "/issudeStudent/aproveStatusAtLibrary",
+  sport_office: "/issudeStudent/aproveStatusAtSport",
+  women_affairs: "/issudeStudent/aproveStatusAtWomenYouth",
+  cafteria: "/issudeStudent/aproveStatusAtCafeteria",
+  dormitory_office: "/issudeStudent/aproveStatusAtDormitory",
+  registrar_office: "/issudeStudent/aproveStatusAtRegistral",
+  student_loan: "/issudeStudent/aproveStatusAtStudentLoan",
+  dept_head: "/issudeStudent/aproveStatusAtDepartmentHead",
+  college_dean: "/issudeStudent/aproveStatusAtCollegeDean",
 };
 
+const Toupdate = {
+  book_store_keeper: "/issudeStudent/updateIssuedAtBookStore",
+  librarian: "/issudeStudent/updateIssuedAtLibrary",
+  sport_office: "/issudeStudent/updateIssuedAtSport",
+  women_affairs: "/issudeStudent/updateIssuedAtWomenYouth",
+  cafteria: "/issudeStudent/updateIssuedAtCafeteria",
+  dormitory_office: "/issudeStudent/updateIssuedAtDormitory",
+  registrar_office: "/issudeStudent/updateIssuedAtRegistral",
+  student_loan: "/issudeStudent/updateIssuedAtStudentLoan",
+  dept_head: "/issudeStudent/updateIssuedAtDepartmentHead",
+  college_dean: "/issudeStudent/updateIssuedAtCollegeDean",
+};
 export const fetchall = async(role: string) => {
    if (role in getAll) {
      const url = getAll[role as RoleKey]; // ✅ safe after check
      const res = await api.get(url);
      return res.data;
    }
+};
+
+export const createIssue = async (data:IssuedRecord, role:string) => {
+  if (role in create) {
+    const url = create[role as RoleKey];
+    const res = await api.post(url, data);
+    return res.data
+  }
+}
+export const updateIssue = async (data: IssuedRecord, id: string, role: string) => {
+  console.log("nan gibadhem", role, id, data);
+  const url = Toupdate[role as RoleKey];
+  console.log("update url", url);
+  console.log("Full PUT URL:", `${url}/${id}`);
+  const res = await api.put(`${url}/${id}`, data);
+  return res.data;
+};
+
+
+
+export const Delete = async (id:string, role:string) => {
+  console.log(id,role)
+      const url = TOdelete[role as RoleKey];
+
+      const res = await api.delete(`${url}/${id}`);
+      return res.data;
+  
+  
+}
+
+export const single = async (id:string, role:string) => {
+   
+      const url = getSingle[role as RoleKey];
+      const res = await api.put(`${url}/${id}`);
+      return res.data;
+  
+ };
+
+export const Aprove = async (id: string, status: string, role: string) => {
+  if (role in approve) {
+    const url = approve[role as RoleKey];
+    console.log(url)
+    const res = await api.put(`${url}/${id}`,{ status});
+    return res.data;
+  }
 };

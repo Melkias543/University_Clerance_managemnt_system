@@ -28,12 +28,7 @@ export default function LibrarianApplicant({ title }: BookStoreApplicantProps) {
   const [statusFilter, setStatusFilter] = useState("All");
   const [typeFilter, setTypeFilter] = useState("All");
 
-  // const filteredStudents = students?.filter((s) => {
-  //   const matchName = s?.name.toLowerCase().includes(search.toLowerCase());
-  //   const matchStatus = statusFilter === "All" || s.status === statusFilter;
-  //   const matchType = typeFilter === "All" || s.type === typeFilter;
-  //   return matchName && matchStatus && matchType;
-  // });
+
 
   const getStatusBadge = (status: string) => {
     switch (status) {
@@ -120,28 +115,6 @@ export default function LibrarianApplicant({ title }: BookStoreApplicantProps) {
             className="w-full sm:w-1/3"
           />
 
-          <Select onValueChange={setStatusFilter} defaultValue={statusFilter}>
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Filter by status" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="All">All Status</SelectItem>
-              <SelectItem value="Approved">Approved</SelectItem>
-              <SelectItem value="Rejected">Rejected</SelectItem>
-              <SelectItem value="Pending">Pending</SelectItem>
-            </SelectContent>
-          </Select>
-
-          <Select onValueChange={setTypeFilter} defaultValue={typeFilter}>
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Filter by type" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="All">All Applicants</SelectItem>
-              <SelectItem value="Aproved">Aproved</SelectItem>
-              <SelectItem value="Rejected">Rejected</SelectItem>
-            </SelectContent>
-          </Select>
         </div>
       </Card>
 
@@ -152,7 +125,13 @@ export default function LibrarianApplicant({ title }: BookStoreApplicantProps) {
         </h2>
 
         <div className="space-y-3">
-          {studentList.map((s, i) => (
+          {studentList?.filter((s) => {
+            const name = s?.withdrawal_info?.full_name.toLocaleLowerCase().includes(search.toLocaleLowerCase())
+            const email = s?.withdrawal_info?.university_email.toLocaleLowerCase().includes(search.toLocaleLowerCase())
+            const id = s.withdrawal_info?.university_id.toLocaleLowerCase().includes(search.toLocaleLowerCase())
+
+            return (name ||email ||id)
+          }).map((s, i) => (
             <Card key={i} className="p-4 shadow-sm">
               <CardContent className="flex flex-col sm:flex-row sm:justify-between items-start sm:items-center gap-3 p-0">
                 <div>

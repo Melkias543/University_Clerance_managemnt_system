@@ -2,7 +2,7 @@
 import StaffSideBar from "@/components/ui/sideBar/staffSIdeBar";
 import { useAuth } from "@/context/authContext";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { MdShoppingCartCheckout } from "react-icons/md";
 
 
@@ -14,9 +14,48 @@ export default function DashboardLayout({
   }) {
   
 
+ const [myuser, setMyuser] = useState<any>(null);
+ const [loading, setLoading] = useState(true); // 👈 new
+ const router = useRouter();
+ const { user } = useAuth();
+
+ // Load user from localStorage
+ useEffect(() => {
+   const storedUser = localStorage.getItem("user");
+   if (storedUser) {
+     setMyuser(JSON.parse(storedUser));
+   }
+   setLoading(false); // done loading
+ }, []);
+
+ // Redirect only after loading is done
+ useEffect(() => {
+   if (!loading && !myuser) {
+     router.push("/auth/login");
+   }
+ }, [loading, myuser, router]);
+
+ if (loading) {
+   return (
+     <div className="flex flex-col items-center justify-center h-screen bg-gray-50 text-gray-700">
+       <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500 border-solid mb-4"></div>
+       <p className="text-lg font-medium">Checking login...</p>
+     </div>
+   );
+ }
+
+ if (!myuser) {
+   return (
+     <div className="flex flex-col items-center justify-center h-screen bg-gray-50 text-gray-700">
+       <MdShoppingCartCheckout />
+       <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500 border-solid mb-4"></div>
+       <p className="text-lg font-medium">Redirecting to login...</p>
+     </div>
+   );
+ }
   
-  const router = useRouter();
-  const { user } = useAuth();
+  // const router = useRouter();
+  // const { user } = useAuth();
 
   useEffect(() => {
     if (!user) {
@@ -24,6 +63,20 @@ export default function DashboardLayout({
     }
   }, [user, router]);
 
+<<<<<<< HEAD
+  // if (!user) {
+    // Optional: show a loading screen while redirecting
+  //   return (
+  //      <div className="flex flex-col items-center justify-center h-screen bg-gray-50 text-gray-700">
+  //           {/* Spinner */}
+  //           <MdShoppingCartCheckout/>
+  //           <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500 border-solid mb-4"></div>
+  //           {/* Message */}
+  //           <p className="text-lg font-medium">Redirecting to login...</p>
+  //         </div>
+  //   );
+  // }
+=======
   if (!user) {
     // Optional: show a loading screen while redirecting
     return (
@@ -36,6 +89,7 @@ export default function DashboardLayout({
           </div>
     );
   }
+>>>>>>> deb258983e291080f9b368e5e172843f1843909f
   return (
     <div className="flex h-screen bg-gray-100">
         <StaffSideBar />

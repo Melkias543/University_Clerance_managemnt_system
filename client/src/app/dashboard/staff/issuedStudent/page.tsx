@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import {
   Table,
   TableBody,
@@ -15,8 +14,31 @@ import {
 import { FiPlus } from "react-icons/fi";
 import { useAuth } from "@/context/authContext";
 import { useEffect, useState } from "react";
-import { fetchall } from "@/Api/isued";
+import { Aprove, Delete, fetchall } from "@/Api/isued";
 import { IssuedRecord } from "@/types/issue";
+<<<<<<< HEAD
+import StudentIssue from "@/components/StaffsPages/createIssue";
+import { toast } from "react-toastify";
+export default function StaffDashboard() {
+  const[ role, setRole] =useState(null)
+  const [issueToEdit, setIssueToEdit] = useState<IssuedRecord | null>(null);
+  const [showPopup, setShowPopup] = useState(false);
+  const [loading, setLaoding] = useState(false);
+  const [issudeStudent, setIssuedstudent] = useState<IssuedRecord[]>([]);
+  const { user } = useAuth();
+  useEffect(() => {
+    const userString = localStorage.getItem("user");
+if (userString) {
+  const user = JSON.parse(userString);
+  console.log("local user", user?.role?.role_name);
+  setRole(user?.role?.role_name);
+}},[])
+  console.log("rolerole",role);
+
+  useEffect(() => {
+    getAll();
+  }, [role]);
+=======
 import { Flag } from "lucide-react";
 
 interface StudentData {
@@ -100,8 +122,66 @@ export default function StaffDashboard() {
   const handleAddStudent = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
+>>>>>>> deb258983e291080f9b368e5e172843f1843909f
 
     try {
+<<<<<<< HEAD
+      setLaoding(true);
+      const data = await fetchall(role);
+      // console.log("data", data.data);
+      setIssuedstudent(data.data);
+      setLaoding(false);
+    } catch (error) {
+      console.log(error);
+      setLaoding(false);
+    }
+  };
+// console.log("role",role)
+// Melkias
+  const deleteIT = async (id: string, role:string) => {
+    try {
+      console.log(id);
+      console.log("hee role", role);
+
+      const deleted = await Delete(id, role);
+      console.log("res", deleted.msg);
+      toast.success(deleted.msg);
+    } catch (error: any) {
+      console.log(error);
+      const message =
+        error?.response?.data?.msg ||
+        error?.response?.data?.message ||
+        error?.message ||
+        "Server Error";
+
+      toast.error(`${message || " Fail"} `);
+      console.log("failed:", error);
+    }
+  };
+  // console.log(issueToEdit);
+  const handleAprove = async (id: string, value: string,role:string) => { 
+    console.log(id,value,role)
+
+    try {
+      
+      const res = await Aprove(id, value, role)
+      console.log(res.msg)
+         toast.success(res.msg);
+    } catch (error:any) {
+      console.log(error);
+      const message =
+        error?.response?.data?.msg ||
+        error?.response?.data?.message ||
+        error?.message ||
+        "Server Error";
+
+      toast.error(`${message || " Fail"} `);
+      console.log("failed:", error);
+    }
+  }
+    
+    ;
+=======
       if (
         !formData.student_name ||
         !formData.student_Id ||
@@ -141,6 +221,7 @@ export default function StaffDashboard() {
     }
   };
 
+>>>>>>> deb258983e291080f9b368e5e172843f1843909f
   return (
     <div>
       {loading ? (
@@ -151,6 +232,58 @@ export default function StaffDashboard() {
             Staff Dashboard
           </h1>
 
+<<<<<<< HEAD
+          <Card className="max-w-5xl mx-auto shadow-md">
+            <CardHeader className="flex justify-between items-center">
+              <CardTitle className="text-lg font-semibold text-gray-700">
+                Students Issued In Some Case.
+              </CardTitle>
+              <Button
+                onClick={() => setShowPopup(!showPopup)}
+                className="bg-teal-800 hover:bg-teal-600 text-white hover:cursor-pointer"
+              >
+                <FiPlus className="mr-2" /> Add Student
+              </Button>
+
+              <StudentIssue
+                issueToEdit={issueToEdit}
+                open={showPopup}
+                onClose={() => setShowPopup(false)}
+              />
+            </CardHeader>
+
+            <CardContent>
+              <div className="overflow-x-auto rounded-lg shadow-md">
+                <Table className=" min-w-full divide-y divide-gray-200 bg-white">
+                  <TableHeader>
+                    <TableRow className="bg-blue-50">
+                      <TableHead className="text-center font-semibold">
+                        Full Name
+                      </TableHead>
+                      <TableHead className="text-center font-semibold">
+                        Deppartement
+                      </TableHead>
+                      <TableHead className="text-center font-semibold">
+                        ID
+                      </TableHead>
+                      <TableHead className="text-center font-semibold">
+                        issued_reason
+                      </TableHead>
+                      <TableHead className="text-center font-semibold">
+                        Quantity
+                      </TableHead>
+                      <TableHead className="text-center font-semibold">
+                        Action And Action
+                      </TableHead>
+                    </TableRow>
+                  </TableHeader>
+
+                  <TableBody>
+                    {issudeStudent.map((student, index) => (
+                      <TableRow
+                        key={student._id}
+                        className={`${index % 2 === 1 ? "bg-blue-50/40" : ""}`}
+=======
       <Card className="max-w-5xl mx-auto shadow-md">
         <CardHeader className="flex justify-between items-center">
           <CardTitle className="text-lg font-semibold text-gray-700">
@@ -339,6 +472,7 @@ export default function StaffDashboard() {
                         size="sm"
                         variant="outline"
                         className="text-xs border-gray-300"
+>>>>>>> deb258983e291080f9b368e5e172843f1843909f
                       >
                         <TableCell className="text-center">
                           {student?.student_name}
@@ -347,32 +481,61 @@ export default function StaffDashboard() {
                           {student?.department}
                         </TableCell>
                         <TableCell className="text-center">
-                          {student?.issued_reason}
+                          {student?.student_Id}
+                        </TableCell>
+                        <TableCell className="text-center">
+                          {student.issued_reason}
                         </TableCell>
                         <TableCell className="text-center">
                           {student.quantity}
                         </TableCell>
                         <TableCell className="text-center space-x-2">
-                          <Badge
-                            className={`${
-                              student.status === "Cleared"
-                                ? "bg-green-500 hover:bg-green-600"
-                                : "bg-red-500 hover:bg-red-600"
-                            } text-white px-3`}
+                          <select
+                            name="status"
+                            id="status"
+                            value={student.status} // default value
+                            onChange={(e) =>
+                              handleAprove(student._id, e.target.value, role)
+                            } // handle change
+                            className={`text-white px-3 py-2 rounded-md text-center cursor-pointer
+    ${
+      student.status === "cleared"
+        ? "bg-green-500 hover:bg-green-600"
+        : student.status === "with_issue"
+        ? "bg-red-500 hover:bg-red-600"
+        : student.status === "pending"
+        ? "bg-amber-400 hover:bg-amber-500"
+        : "bg-gray-400"
+    }`}
                           >
-                            {student.status}
-                          </Badge>
-                          <Button
-                            size="sm"
+                            <option value="cleared">Cleared</option>
+                            <option value="with_issues">With Issue</option>
+                            <option value="pending">Pending</option>
+                          </select>
+
+                          {/* <Button
+                            size="sm""pending", "with_issues", "cleared
                             variant="outline"
                             className="text-xs border-gray-300"
                           >
                             View detail
-                          </Button>
+                          </Button> */}
                           <Button
+                            onClick={() => {
+                              setIssueToEdit(student);
+                              setShowPopup(true);
+                            }}
                             size="sm"
                             variant="outline"
-                            className="text-xs border-gray-300 bg-red-700"
+                            className="text-xs bg-blue-700 hover:bg-blue-500 hover:cursor-pointer border-gray-300"
+                          >
+                            Edit Issue
+                          </Button>
+                          <Button
+                            onClick={() => deleteIT(student._id, role)}
+                            size="sm"
+                            variant="outline"
+                            className="text-xs border-gray-300 bg-red-700 hover:bg-red-500 hover:cursor-pointer"
                           >
                             Delete
                           </Button>

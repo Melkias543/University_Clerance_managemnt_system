@@ -36,41 +36,8 @@ export default function AdminDashboard() {
   const [showModal, setShowModal] = useState(false);
   // const [currentApprovals, setCurrentApprovals] = useState<>([]);
 
-  // const filteredStudents = students.filter((s) => {
-  //   const matchName = s.name.toLowerCase().includes(search.toLowerCase());
-  //   const matchStatus = statusFilter === "All" || s.status === statusFilter;
-  //   const matchType = typeFilter === "All" || s.type === typeFilter;
-  //   return matchName && matchStatus && matchType;
-  // });
   const { user } = useAuth();
-  const getStatusBadge = (status: string) => {
-    switch (status) {
-      case "Approved":
-        return (
-          <Badge className="bg-green-100 text-green-800 hover:bg-green-100">
-            {status}
-          </Badge>
-        );
-      case "Rejected":
-        return (
-          <Badge className="bg-red-100 text-red-800 hover:bg-red-100">
-            {status}
-          </Badge>
-        );
-      case "Pending":
-        return (
-          <Badge className="bg-yellow-100 text-yellow-800 hover:bg-yellow-100">
-            {status}
-          </Badge>
-        );
-      default:
-        return (
-          <Badge className="bg-gray-100 text-gray-800 hover:bg-gray-100">
-            {status}
-          </Badge>
-        );
-    }
-  };
+ 
   useEffect(() => {
     getCearanceApplicant();
   }, []);
@@ -80,7 +47,7 @@ export default function AdminDashboard() {
       setAproval(student[0]?.approvals);
     }
   }, [student]);
-
+console.log("search".search)
   const getCearanceApplicant = async () => {
     try {
       // console.log("hi");
@@ -104,36 +71,13 @@ export default function AdminDashboard() {
 
       {/* Filters */}
       <Card className="p-4">
-        <div className="flex flex-wrap gap-4 justify-between items-center">
+        <div className="">
           <Input
             placeholder="Search for student"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full sm:w-1/3"
+            className="w-full "
           />
-
-          <Select onValueChange={setStatusFilter} defaultValue={statusFilter}>
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Filter by status" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="All">All Status</SelectItem>
-              <SelectItem value="Approved">Approved</SelectItem>
-              <SelectItem value="Rejected">Rejected</SelectItem>
-              <SelectItem value="Pending">Pending</SelectItem>
-            </SelectContent>
-          </Select>
-
-          <Select onValueChange={setTypeFilter} defaultValue={typeFilter}>
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Filter by type" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="All">All Types</SelectItem>
-              <SelectItem value="Internship">Internship</SelectItem>
-              <SelectItem value="Research">Research</SelectItem>
-            </SelectContent>
-          </Select>
         </div>
       </Card>
 
@@ -144,7 +88,16 @@ export default function AdminDashboard() {
         </h2>
 
         <div className="space-y-3">
-          {student?.map((s) => (
+          {student?.filter((s) => {
+              const matchName = s.full_name
+                .toLowerCase()
+                .includes(search.toLowerCase());
+              const matchDepartment = s.department
+                .toLowerCase()
+                .includes(search.toLowerCase());
+
+              return (matchName || matchDepartment)
+          }).map((s) => (
             <Card key={s._id} className="p-4 shadow-sm">
               <CardContent className="flex flex-col sm:flex-row sm:justify-between items-start sm:items-center gap-3 p-0">
                 <div>
