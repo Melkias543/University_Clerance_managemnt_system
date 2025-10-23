@@ -7,6 +7,7 @@ import { useAuth } from "@/context/authContext";
 
 const StaffSideBar = () => {
   const [active, setActive] = useState("Dashboard");
+   const [isOpen, setIsOpen] = useState(false); 
 const {logout} = useAuth()
   const handleLogout = () => {
   logout();
@@ -66,6 +67,7 @@ const {logout} = useAuth()
             </Link>
           ))}
         </ul>
+        
       </div>
     </aside>
   );
