@@ -98,11 +98,12 @@ const Toupdate = {
   college_dean: "/issudeStudent/updateIssuedAtCollegeDean",
 };
 export const fetchall = async(role: string) => {
-   if (role in getAll) {
-     const url = getAll[role as RoleKey]; // ✅ safe after check
+console.log(role)
+  const url = getAll[role as RoleKey];
+  console.log(url)// ✅ safe after check
      const res = await api.get(url);
      return res.data;
-   }
+
 };
 
 export const createIssue = async (data:IssuedRecord, role:string) => {

@@ -32,7 +32,7 @@ const Page = () => {
 
   const [open, setOpen] = useState(false);
   const [openId, setOpenId] = useState<string | null>(null);
-const { applicantData, setapplicantData, user } = useAuth();
+  const { applicantData, setapplicantData, user } = useAuth();
   const [lastSubmittedData, setLastSubmittedData] = useState<any>(null);
 
   // console.log(application);
@@ -60,9 +60,7 @@ const { applicantData, setapplicantData, user } = useAuth();
     };
     loadData();
   }, [applicantData]);
-  // console.log(application);
-
-  
+  console.log("try bokstore",applicantData);
 
   // console.log("user", user);
   // console.log("aplicant", applicantData);
@@ -197,7 +195,7 @@ const { applicantData, setapplicantData, user } = useAuth();
                     )}
                   </Button> */}
 
-                   <Button
+                  <Button
                     onClick={() => handleApplication(app.title, app._id)}
                     disabled={
                       loadingStates[app.title] ||
@@ -239,8 +237,7 @@ const { applicantData, setapplicantData, user } = useAuth();
                           appr.office.replace("_", " ") === app.title
                       )?.status || `Apply to ${app.title}`
                     )}
-                  </Button> 
-                 
+                  </Button>
 
                   <Button
                     onClick={() =>

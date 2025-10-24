@@ -1,5 +1,3 @@
-import { DormitoryApplication } from "../models/applicationModel.js";
-
 import { Apply } from "../models/appliedStudent.js";
 import Student from "../models/studentModel.js";
 const checkIfExistRegistered = async (data) => {
@@ -87,7 +85,7 @@ const sendAppilicationData = async (model, data) => {
       approvals,
       // service,
     } = data;
-
+// console.log(data)
     const applied = await model.create({
       // service,
       student,
@@ -184,7 +182,13 @@ const AproveOrRejectLAplication = async (
       },
       { new: true, runValidators: true }
     );
-console.log(updatedOfficeAction)
+    console.log(
+      "updatedOfficeAction",
+      model,
+      student,
+      aprovedOrRejectionData,
+      office
+    );
     if (updatedOfficeAction) {
       const updatedClearance = await Apply.findOneAndUpdate(
         { student },

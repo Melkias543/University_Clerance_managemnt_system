@@ -15,7 +15,7 @@ const clearanceSchema = new mongoose.Schema(
     },
     action: {
       type: String,
-      enum: ["Approve", "Aproved", "Rejected", "Pending"],
+      enum: ["Approved", "Aproved", "Rejected", "Pending"],
       default: "Pending",
     },
     data: {

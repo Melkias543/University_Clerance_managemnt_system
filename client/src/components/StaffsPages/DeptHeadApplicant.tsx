@@ -174,28 +174,26 @@ export default function DepartmentHeadApplicant({ title }: BookStoreApplicantPro
                     </p>
                   </div>
                   <div className="flex items-center gap-2">
-                    {getStatusBadge(s.action)}
-                    {s.action === "Rejected" ? (
-                      <Button
-                        onClick={() => {
-                          handleAproveal("Aproved");
-                        }}
-                        size="sm"
-                        className="bg-green-600 hover:bg-green-700 text-white cursor-pointer"
-                      >
-                        Approve
-                      </Button>
-                    ) : (
-                      <Button
-                        onClick={() => {
-                          handleAproveal("Rejected");
-                        }}
-                        size="sm"
-                        className="bg-red-600 cursor-pointer hover:bg-red-700 text-white"
-                      >
-                        Reject
-                      </Button>
-                    )}
+                    <select
+                      name="status"
+                      value={s?.aprovals?.status || "Take Action"}
+                      onChange={(e) => handleAproveal(e.target.value)}
+                      className={`px-3 py-2 rounded-md text-sm font-medium border outline-none transition-all duration-200
+    ${
+      s?.status === "Aproved"
+        ? "bg-green-100 text-green-700 border-green-400 hover:bg-green-200"
+        : s?.status === "Rejected"
+        ? "bg-red-100 text-red-700 border-red-400 hover:bg-red-200"
+        : "bg-green-700 text-white border-green-400 hover:bg-green-200"
+    }
+  `}
+                    >
+                      <option value="">
+                        {s?.status ? s?.status : "Take Action"}
+                      </option>
+                      <option value="Aproved">Approve</option>
+                      <option value="Rejected">Reject</option>
+                    </select>
                     <Button
                       size="sm"
                       variant="default"
