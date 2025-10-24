@@ -27,4 +27,5 @@ export interface Applicant {
   submitted_at: string;
   student: Student;
   withdrawal_info: WithdrawalInfo;
+  status:string
 }

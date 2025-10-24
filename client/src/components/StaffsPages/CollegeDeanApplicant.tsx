@@ -28,12 +28,7 @@ export default function CollegeDeanApplicant({ title }:BookStoreApplicantProps) 
   const [statusFilter, setStatusFilter] = useState("All");
   const [typeFilter, setTypeFilter] = useState("All");
 
-  // const filteredStudents = students?.filter((s) => {
-  //   const matchName = s?.name.toLowerCase().includes(search.toLowerCase());
-  //   const matchStatus = statusFilter === "All" || s.status === statusFilter;
-  //   const matchType = typeFilter === "All" || s.type === typeFilter;
-  //   return matchName && matchStatus && matchType;
-  // });
+ 
 
   const getStatusBadge = (status: string) => {
     switch (status) {
@@ -111,39 +106,6 @@ export default function CollegeDeanApplicant({ title }:BookStoreApplicantProps) 
       </div>
 
       {/* Filters */}
-      <Card className="p-4">
-        <div className="flex flex-wrap gap-4 justify-between items-center">
-          <Input
-            placeholder="Search for student"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-full sm:w-1/3"
-          />
-
-          <Select onValueChange={setStatusFilter} defaultValue={statusFilter}>
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Filter by status" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="All">All Status</SelectItem>
-              <SelectItem value="Approved">Approved</SelectItem>
-              <SelectItem value="Rejected">Rejected</SelectItem>
-              <SelectItem value="Pending">Pending</SelectItem>
-            </SelectContent>
-          </Select>
-
-          <Select onValueChange={setTypeFilter} defaultValue={typeFilter}>
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Filter by type" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="All">All Applicants</SelectItem>
-              <SelectItem value="Aproved">Aproved</SelectItem>
-              <SelectItem value="Rejected">Rejected</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-      </Card>
 
       {/* Student Applications */}
       <div>
@@ -152,70 +114,82 @@ export default function CollegeDeanApplicant({ title }:BookStoreApplicantProps) 
         </h2>
 
         <div className="space-y-3">
-          {studentList.map((s, i) => (
-            <Card key={i} className="p-4 shadow-sm">
-              <CardContent className="flex flex-col sm:flex-row sm:justify-between items-start sm:items-center gap-3 p-0">
-                <div>
-                  <p className="font-semibold">
-                    {s?.withdrawal_info?.full_name}
-                  </p>
-                  <p className="text-sm text-gray-600">
-                    Dept:{s.withdrawal_info?.department}
-                  </p>
-                  <p className="text-sm text-gray-500">
-                    ID: {s.withdrawal_info?.university_id}
-                  </p>
-                </div>
-                <div>
-                  <p className="font-semibold">
-                    {s?.withdrawal_info?.university_email}
-                  </p>
-                  <p className="text-sm text-gray-600">
-                    Batch:{s.withdrawal_info?.year_batch}
-                  </p>
-                  <p className="text-sm text-gray-500 ">
-                    data:{" "}
-                    {s.withdrawal_info?.clearance_date
-                      ? new Date(
-                          s.withdrawal_info.clearance_date
-                        ).toLocaleDateString()
-                      : "N/A"}
-                  </p>
-                </div>
-                <div className="flex items-center gap-2">
-                  {getStatusBadge(s.action)}
-                  {s.action === "Rejected" ? (
-                    <Button
-                      onClick={() => {
-                        handleAproveal("Aproved");
-                      }}
-                      size="sm"
-                      className="bg-green-600 hover:bg-green-700 text-white cursor-pointer"
+          {studentList
+            ?.filter((s) => {
+              const name = s?.withdrawal_info?.full_name
+                .toLocaleLowerCase()
+                .includes(search.toLocaleLowerCase());
+              const id = s.withdrawal_info?.university_id
+                .toLocaleLowerCase()
+                .includes(search.toLocaleLowerCase());
+              const dept = s.withdrawal_info?.department
+                .toLocaleLowerCase()
+                .includes(search.toLocaleLowerCase());
+
+              return name || id || dept;
+            })
+            .map((s, i) => (
+              <Card key={i} className="p-4 shadow-sm">
+                <CardContent className="flex flex-col sm:flex-row sm:justify-between items-start sm:items-center gap-3 p-0">
+                  <div>
+                    <p className="font-semibold">
+                      {s?.withdrawal_info?.full_name}
+                    </p>
+                    <p className="text-sm text-gray-600">
+                      Dept:{s.withdrawal_info?.department}
+                    </p>
+                    <p className="text-sm text-gray-500">
+                      ID: {s.withdrawal_info?.university_id}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="font-semibold">
+                      {s?.withdrawal_info?.university_email}
+                    </p>
+                    <p className="text-sm text-gray-600">
+                      Batch:{s.withdrawal_info?.year_batch}
+                    </p>
+                    <p className="text-sm text-gray-500 ">
+                      data:{" "}
+                      {s.withdrawal_info?.clearance_date
+                        ? new Date(
+                            s.withdrawal_info.clearance_date
+                          ).toLocaleDateString()
+                        : "N/A"}
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <select
+                      name="status"
+                      value={s?.aprovals?.status || "Take Action"}
+                      onChange={(e) => handleAproveal(e.target.value)}
+                      className={`px-3 py-2 rounded-md text-sm font-medium border outline-none transition-all duration-200
+    ${
+      s?.status === "Aproved"
+        ? "bg-green-100 text-green-700 border-green-400 hover:bg-green-200"
+        : s?.status === "Rejected"
+        ? "bg-red-100 text-red-700 border-red-400 hover:bg-red-200"
+        : "bg-green-700 text-white border-green-400 hover:bg-green-200"
+    }
+  `}
                     >
-                      Approve
-                    </Button>
-                  ) : (
+                      <option value="">
+                        {s?.status ? s?.status : "Take Action"}
+                      </option>
+                      <option value="Aproved">Approve</option>
+                      <option value="Rejected">Reject</option>
+                    </select>
                     <Button
-                      onClick={() => {
-                        handleAproveal("Rejected");
-                      }}
                       size="sm"
-                      className="bg-red-600 cursor-pointer hover:bg-red-700 text-white"
+                      variant="default"
+                      className="bg-blue-600 cursor-pointer hover:bg-blue-700 text-white"
                     >
-                      Reject
+                      View Detail
                     </Button>
-                  )}
-                  <Button
-                    size="sm"
-                    variant="default"
-                    className="bg-blue-600 cursor-pointer hover:bg-blue-700 text-white"
-                  >
-                    View Detail
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
         </div>
       </div>
     </div>

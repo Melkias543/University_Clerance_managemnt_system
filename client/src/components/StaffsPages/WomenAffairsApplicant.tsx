@@ -114,8 +114,6 @@ export default function WomenAndYouthAffairsApplicant({ title }:BookStoreApplica
             onChange={(e) => setSearch(e.target.value)}
             className=""
           />
-
-        
         </div>
       </Card>
 
@@ -126,76 +124,82 @@ export default function WomenAndYouthAffairsApplicant({ title }:BookStoreApplica
         </h2>
 
         <div className="space-y-3">
-          {studentList.filter((s) => {
-            const name = s?.withdrawal_info?.full_name.toLocaleLowerCase().includes(search.toLocaleLowerCase())
-            const email = s?.withdrawal_info?.university_email.toLocaleLowerCase().includes(search.toLocaleLowerCase())
-            const id = s.withdrawal_info?.university_id.toLocaleLowerCase().includes(search.toLocaleLowerCase())
+          {studentList
+            .filter((s) => {
+              const name = s?.withdrawal_info?.full_name
+                .toLocaleLowerCase()
+                .includes(search.toLocaleLowerCase());
+              const email = s?.withdrawal_info?.university_email
+                .toLocaleLowerCase()
+                .includes(search.toLocaleLowerCase());
+              const id = s.withdrawal_info?.university_id
+                .toLocaleLowerCase()
+                .includes(search.toLocaleLowerCase());
 
-            return (name ||email ||id)
-          }).map((s, i) => (
-            <Card key={i} className="p-4 shadow-sm">
-              <CardContent className="flex flex-col sm:flex-row sm:justify-between items-start sm:items-center gap-3 p-0">
-                <div>
-                  <p className="font-semibold">
-                    {s?.withdrawal_info?.full_name}
-                  </p>
-                  <p className="text-sm text-gray-600">
-                    Dept:{s.withdrawal_info?.department}
-                  </p>
-                  <p className="text-sm text-gray-500">
-                    ID: {s.withdrawal_info?.university_id}
-                  </p>
-                </div>
-                <div>
-                  <p className="font-semibold">
-                    {s?.withdrawal_info?.university_email}
-                  </p>
-                  <p className="text-sm text-gray-600">
-                    Batch:{s.withdrawal_info?.year_batch}
-                  </p>
-                  <p className="text-sm text-gray-500 ">
-                    data:{" "}
-                    {s.withdrawal_info?.clearance_date
-                      ? new Date(
-                          s.withdrawal_info.clearance_date
-                        ).toLocaleDateString()
-                      : "N/A"}
-                  </p>
-                </div>
-                <div className="flex items-center gap-2">
-                  {getStatusBadge(s.action)}
-                  {s.action === "Rejected" ? (
-                    <Button
-                      onClick={() => {
-                        handleAproveal("Aproved");
-                      }}
-                      size="sm"
-                      className="bg-green-600 hover:bg-green-700 text-white cursor-pointer"
+              return name || email || id;
+            })
+            .map((s, i) => (
+              <Card key={i} className="p-4 shadow-sm">
+                <CardContent className="flex flex-col sm:flex-row sm:justify-between items-start sm:items-center gap-3 p-0">
+                  <div>
+                    <p className="font-semibold">
+                      {s?.withdrawal_info?.full_name}
+                    </p>
+                    <p className="text-sm text-gray-600">
+                      Dept:{s.withdrawal_info?.department}
+                    </p>
+                    <p className="text-sm text-gray-500">
+                      ID: {s.withdrawal_info?.university_id}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="font-semibold">
+                      {s?.withdrawal_info?.university_email}
+                    </p>
+                    <p className="text-sm text-gray-600">
+                      Batch:{s.withdrawal_info?.year_batch}
+                    </p>
+                    <p className="text-sm text-gray-500 ">
+                      data:{" "}
+                      {s.withdrawal_info?.clearance_date
+                        ? new Date(
+                            s.withdrawal_info.clearance_date
+                          ).toLocaleDateString()
+                        : "N/A"}
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <select
+                      name="status"
+                      value="status"
+                      onChange={(e) => handleAproveal(e.target.value)}
+                      className={`px-3 py-2 rounded-md text-sm font-medium border outline-none transition-all duration-200
+    ${
+      s?.status === "Aproved"
+        ? "bg-green-100 text-green-700 border-green-400 hover:bg-green-200"
+        : s?.status === "Rejected"
+        ? "bg-red-100 text-red-700 border-red-400 hover:bg-red-200"
+        : "bg-green-700 text-white border-green-400 hover:bg-green-200"
+    }
+  `}
                     >
-                      Approve
-                    </Button>
-                  ) : (
+                      <option value="">
+                        {s?.status ? s?.status : "Take Action"}
+                      </option>
+                      <option value="Aproved">Approve</option>
+                      <option value="Rejected">Reject</option>
+                    </select>
                     <Button
-                      onClick={() => {
-                        handleAproveal("Rejected");
-                      }}
                       size="sm"
-                      className="bg-red-600 cursor-pointer hover:bg-red-700 text-white"
+                      variant="default"
+                      className="bg-blue-600 cursor-pointer hover:bg-blue-700 text-white"
                     >
-                      Reject
+                      View Detail
                     </Button>
-                  )}
-                  <Button
-                    size="sm"
-                    variant="default"
-                    className="bg-blue-600 cursor-pointer hover:bg-blue-700 text-white"
-                  >
-                    View Detail
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
         </div>
       </div>
     </div>

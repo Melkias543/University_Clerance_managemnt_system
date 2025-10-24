@@ -4,17 +4,19 @@ import applicationService from "../../services/applicationService.js";
 const sendLibraryApplication = async (req, res) => {
   try {
     console.log(req.body.data);
-
-      const {
-        full_name,
-        university_email,
-        university_id,
-        department,
-        year_batch,
-        reason_for_withdrawal,
-        clearance_date,
-      } = req.body.data;
-      const { application_id, student, approvals } = req.body;
+ const body = req.body.data || req.body;
+ const {
+   full_name,
+   university_email,
+   university_id,
+   department,
+   year_batch,
+   reason_for_withdrawal,
+   clearance_date,
+   application_id,
+   student,
+   approvals,
+ } = body;
 
     if (
       !full_name ||
@@ -166,13 +168,61 @@ const office = "Library";
         msg: "Invalid service ID or ID is Not provided",
       });
     }
+
+    /**const aproveOrRejectAtBookStore = async (req, res) => {
+      try {
+        const { id } = req.params;
+        const { status } = req.body;
+        console.log(status,id);
+           const office = "Book_Store";
+        if (!mongoose.Types.ObjectId.isValid(id) || !id) {
+          return res.status(400).json({
+            status: false,
+            msg: "Invalid service ID or ID is Not provided",
+          });
+        }
+        if (!status) {
+          return res.status(400).json({
+            status: false,
+            msg:"All fields are required to update."
+          })
+        }
+      
+        const data = await applicationService.AproveOrRejectLAplication(
+          BookStoreApplication,
+          id,
+          status,
+          office
+        );
+        if (!data) {
+          return res.status(400).json({
+            status: false,
+            msg:"Fail To update"
+          })
+        }
+    
+        return res.status(200).json({
+          status: true,
+          msg: "Action is Submitted successfully.",
+          data:data
+        })
+      } catch (error) {
+        console.log(error)
+    
+        return res.status(500).json({
+          status: false,
+          msg:"Internal Server Error"
+        })
+      }
+    
+    } */
     if (!status) {
       return res.status(400).json({
         status: false,
         msg:"All fields are required to update."
       })
     }
-  
+  console.log(LibraryApplication, id, status, office);
     const data = await applicationService.AproveOrRejectLAplication(
       LibraryApplication,
       id,

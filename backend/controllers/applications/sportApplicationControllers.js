@@ -5,16 +5,23 @@ const sendToSportApplication = async (req, res) => {
   try {
     console.log(req.body.data);
 
-    const {
-      full_name,
-      university_email,
-      university_id,
-      department,
-      year_batch,
-      reason_for_withdrawal,
-      clearance_date,
-    } = req.body.data;
-    const { application_id, student, approvals } = req.body;
+    const body = req.body.data || req.body;
+    console.log(body)
+    // console.log(req.body);
+    // console.log(req.body.data);
+
+ const {
+   full_name,
+   university_email,
+   university_id,
+   department,
+   year_batch,
+   reason_for_withdrawal,
+   clearance_date,
+   application_id,
+   student,
+   approvals,
+ } = body;
     if (
       !full_name ||
       !university_email ||

@@ -87,6 +87,8 @@ const StudentIssue: React.FC<cearteIssueProps> = ({
       if (response && response.msg) {
         toast.success(response.message || response.msg);
       }
+              toast.success("success");
+
     } catch (error: any) {
       const message =
         error?.response?.data?.msg ||
@@ -108,12 +110,12 @@ const StudentIssue: React.FC<cearteIssueProps> = ({
         <form onSubmit={handleSubmit}>
           <DialogHeader>
             <DialogTitle>
-              {issueToEdit ? "Update Staff" : "Add new Staff"}
+              {issueToEdit ? "Update IsueOFStudent" : "Add new IsueOFStudent"}
             </DialogTitle>
             <DialogDescription>
               {issueToEdit
-                ? " Update the staff information and click update ."
-                : "Add new  staff information and  click save."}
+                ? " Update the IsueOFStudent information and click update ."
+                : "Add new  IsueOFStudent information and  click save."}
             </DialogDescription>
           </DialogHeader>
 
@@ -184,7 +186,7 @@ const StudentIssue: React.FC<cearteIssueProps> = ({
               type="submit"
               className="hover:bg-blue-400 bg-blue-700 hover:cursor-pointer"
             >
-              {issueToEdit ? "Update Staff" : "Add new Staff"}
+              {issueToEdit ? "Update IsueOFStudent" : "Add new IsueOFStudent"}
             </Button>
           </DialogFooter>
         </form>
